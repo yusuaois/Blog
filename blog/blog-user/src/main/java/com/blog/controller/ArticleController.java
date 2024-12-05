@@ -29,7 +29,7 @@ public class ArticleController {
         return result;
     }
 
-    @RequestMapping("/articleList")//ffsddsfd
+    @RequestMapping("/articleList")
     public ResponseResult articleList(Integer pageNum, Integer pageSize,Long categoryId){
         return  ArticleService.articleList(pageNum, pageSize, categoryId);
     }
