@@ -1,0 +1,74 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "BeanCopyUtils",
+            "request": "launch",
+            "mainClass": "com.blog.utils.BeanCopyUtils",
+            "projectName": "blog-framework"
+        },
+        {
+            "type": "java",
+            "name": "BlogFrameworkApplication",
+            "request": "launch",
+            "mainClass": "com.framework.BlogFrameworkApplication",
+            "projectName": "blog-framework"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.Main",
+            "projectName": "blog-framwork"
+        },
+        {
+            "type": "java",
+            "name": "CodeGenerator",
+            "request": "launch",
+            "mainClass": "com.user.common.CodeGenerator",
+            "projectName": "blog-user"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Main<blog-user>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Main",
+            "projectName": "blog-user",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BlogUserApplication<blog-user>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.user.BlogUserApplication",
+            "projectName": "blog-user",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63505 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=blog-user"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Main<blog-framework>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Main",
+            "projectName": "blog-framework",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BlogUserApplication<blog-user>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blog.BlogUserApplication",
+            "projectName": "blog-user",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50716 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=blog-user"
+        }
+    ]
+}
