@@ -11,7 +11,10 @@ public class SystemConstants
      */
     public static final int ARTICLE_STATUS_NORMAL = 0;
 
-    //
+    //状态正常
     public static final String STATUS_NORMAL = "0";
+
+    //友链状态正常
+    public static final String LINK_STATUS_NORMAL = "0";
     
 }

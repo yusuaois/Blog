@@ -5,5 +5,6 @@
         "xml": false,
         "java": false
     },
-    "java.compile.nullAnalysis.mode": "disabled"
+    "java.compile.nullAnalysis.mode": "disabled",
+    "Codegeex.CompletionDelay": 3
 }

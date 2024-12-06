@@ -1,6 +1,7 @@
 package com.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.blog.common.ResponseResult;
 import com.blog.entity.Link;
 
 /**
@@ -12,5 +13,7 @@ import com.blog.entity.Link;
  * @since 2024-12-03
  */
 public interface ILinkService extends IService<Link> {
+
+    public ResponseResult getAllLink();
 
 }
