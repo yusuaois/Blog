@@ -6,5 +6,5 @@
         "java": false
     },
     "java.compile.nullAnalysis.mode": "disabled",
-    "Codegeex.CompletionDelay": 3
+    "Codegeex.CompletionDelay": 0.1
 }
