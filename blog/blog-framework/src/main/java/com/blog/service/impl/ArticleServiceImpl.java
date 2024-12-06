@@ -100,7 +100,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult getArticleDetail(Long id){
+    public ResponseResult getArticleDetail(Long id){1
         // 根据id查询文章
         Article article = getById(id);
         //转化成Vo
