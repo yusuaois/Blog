@@ -1,4 +1,4 @@
-package com.blog.notUsed;
+package com.blog.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,12 @@ import java.util.List;
  * @since 2024-12-03
  */
 @RestController
-@RequestMapping("/user")
 public class SysUserController {
     @Autowired
     private ISysUserService sysUserService;
 
-    @RequestMapping("/list")
-    public List<SysUser> list() {
-        return sysUserService.list();
-    }
+    //@RequestMapping("/login")
+
+    
     
 }
