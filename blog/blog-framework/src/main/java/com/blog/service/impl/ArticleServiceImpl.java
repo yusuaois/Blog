@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Article;
+import com.blog.entity.Category;
 import com.blog.mapper.ArticleMapper;
 import com.blog.service.IArticleService;
 import com.blog.service.ICategoryService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.vo.ArticleDetailVo;
 import com.blog.vo.ArticleListVo;
 import com.blog.vo.HotArticleVo;
 import com.blog.vo.PageVo;
@@ -95,5 +97,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         return ResponseResult.okResult(pageVo);
 
+    }
+
+    @Override
+    public ResponseResult getArticleDetail(Long id){
+        // 根据id查询文章
+        Article article = getById(id);
+        //转化成Vo
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article,ArticleDetailVo.class);
+        //查询对应的分类名称
+        Category category = categoryService.getById(articleDetailVo.getCategoryId()) ;
+        //根据分类id查询分类名称
+        if(category != null)articleDetailVo.setCategoryName(category.getName());
+        //封装相应返回
+        return ResponseResult.okResult(articleDetailVo);
     }
 }

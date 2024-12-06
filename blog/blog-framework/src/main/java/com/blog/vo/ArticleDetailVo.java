@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class ArticleListVo {
+public class ArticleDetailVo {
     private Long id;
 
     /**
@@ -17,6 +17,12 @@ public class ArticleListVo {
      * 文章摘要
      */
     private String summary;
+
+    //分类id
+    private Long categoryId;
+
+    //内容
+    private String content;
 
     /**
      * 所属分类名
@@ -34,5 +40,4 @@ public class ArticleListVo {
     private Long viewCount;
 
     private LocalDateTime createTime;
-
 }
