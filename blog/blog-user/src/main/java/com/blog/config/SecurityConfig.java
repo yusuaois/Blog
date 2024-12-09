@@ -64,6 +64,7 @@ public class SecurityConfig {
                         // 允许直接访问授权登录接口
                         .antMatchers("/login").permitAll()
                         // 允许任意请求被已登录用户访问，不检查Authority
+                        //.antMatchers("/logout").authenticated()
                         .anyRequest().authenticated())
                 // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

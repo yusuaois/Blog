@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -18,6 +21,8 @@ import lombok.Data;
  * @since 2024-12-03
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("sys_user")
 public class User implements Serializable {
 

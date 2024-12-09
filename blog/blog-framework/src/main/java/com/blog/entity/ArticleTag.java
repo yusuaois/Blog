@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -17,6 +18,8 @@ import lombok.Data;
  * @since 2024-12-03
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("sg_article_tag")
 public class ArticleTag implements Serializable {
 
