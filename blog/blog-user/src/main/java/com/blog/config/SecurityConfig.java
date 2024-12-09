@@ -20,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
+import com.blog.filter.JwtAuthenticationTokenFilter;
+
 /**
  * @Author: lzw
  * @Description: SpringSecurity 配置类
@@ -29,8 +31,8 @@ import org.springframework.web.cors.CorsUtils;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // @Autowired
-    // private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     // @Autowired
     // private AuthenticationEntryPointImpl authenticationEntryPoint;
     // @Autowired
@@ -60,9 +62,9 @@ public class SecurityConfig {
                         // 允许直接访问授权登录接口
                         .antMatchers("/login").permitAll()
                         // 允许任意请求被已登录用户访问，不检查Authority
-                        .anyRequest().authenticated());
-        // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
-        // .addFilterBefore(jwtAuthenticationTokenFilter,
+                        .anyRequest().authenticated())
+                // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
