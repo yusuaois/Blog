@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -63,9 +59,12 @@ public class SecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         // 允许直接访问授权登录接口
                         .antMatchers("/login").permitAll()
+                        .antMatchers("/logout").authenticated()
+                        .antMatchers("/link/getAllLink").authenticated()
                         // 允许任意请求被已登录用户访问，不检查Authority
                         //.antMatchers("/logout").authenticated()
-                        .anyRequest().authenticated())
+                        // 除上面外的所有请求都不需要登录
+                        .anyRequest().permitAll())
                 // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // UsernamePasswordAuthenticationFilter.class);

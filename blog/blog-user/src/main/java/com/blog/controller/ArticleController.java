@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.blog.common.ResponseResult;
-import com.blog.service.IArticleService;
+import com.blog.service.ArticleService;
 
 
 /**
@@ -21,7 +21,7 @@ import com.blog.service.IArticleService;
 public class ArticleController {
     
     @Autowired
-    private IArticleService ArticleService;
+    private ArticleService ArticleService;
 
     @RequestMapping("/hotArticleList")
     public ResponseResult hotArticleList(){

@@ -7,8 +7,8 @@ import com.blog.constants.SystemConstants;
 import com.blog.entity.Article;
 import com.blog.entity.Category;
 import com.blog.mapper.CategoryMapper;
-import com.blog.service.IArticleService;
-import com.blog.service.ICategoryService;
+import com.blog.service.ArticleService;
+import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.vo.CategoryVo;
 
@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
  * @since 2024-12-03
  */
 @Service
-public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Autowired
-    private IArticleService articleService;
+    private ArticleService articleService;
 
     @Override
     public ResponseResult getCategoryList(){

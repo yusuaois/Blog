@@ -12,7 +12,7 @@ import com.blog.entity.Link;
  * @author ac
  * @since 2024-12-03
  */
-public interface ILinkService extends IService<Link> {
+public interface LinkService extends IService<Link> {
 
     public ResponseResult getAllLink();
 

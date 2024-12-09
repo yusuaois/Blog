@@ -7,8 +7,8 @@ import com.blog.constants.SystemConstants;
 import com.blog.entity.Article;
 import com.blog.entity.Category;
 import com.blog.mapper.ArticleMapper;
-import com.blog.service.IArticleService;
-import com.blog.service.ICategoryService;
+import com.blog.service.ArticleService;
+import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.vo.ArticleDetailVo;
 import com.blog.vo.ArticleListVo;
@@ -33,10 +33,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
  * @since 2024-12-03
  */
 @Service
-public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     @Lazy
     @Autowired
-    private ICategoryService categoryService;
+    private CategoryService categoryService;
 
     @Override
     public ResponseResult hotArticleList() {

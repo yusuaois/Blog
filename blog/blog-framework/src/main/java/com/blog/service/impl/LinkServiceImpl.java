@@ -6,7 +6,7 @@ import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Link;
 import com.blog.mapper.LinkMapper;
-import com.blog.service.ILinkService;
+import com.blog.service.LinkService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.vo.LinksVo;
 
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @since 2024-12-03
  */
 @Service
-public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements ILinkService {
+public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements LinkService {
     @Override
     public ResponseResult getAllLink() {
         //查询所有审核通过的友联

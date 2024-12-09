@@ -12,7 +12,7 @@ import com.blog.entity.Category;
  * @author ac
  * @since 2024-12-03
  */
-public interface ICategoryService extends IService<Category> {
+public interface CategoryService extends IService<Category> {
 
     ResponseResult getCategoryList();
 

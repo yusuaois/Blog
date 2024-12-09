@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.common.ResponseResult;
-import com.blog.service.ILinkService;
+import com.blog.service.LinkService;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ import com.blog.service.ILinkService;
 @RequestMapping("/link")
 public class LinkController {
 
-    @Autowired ILinkService linkService;
+    @Autowired LinkService linkService;
 
     @RequestMapping("/getAllLink")
     public ResponseResult getAllLink(){

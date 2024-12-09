@@ -74,4 +74,6 @@ public class BlogLoginServiceImpl extends ServiceImpl<SysUserMapper, User> imple
         redisCache.deleteObject("bloglogin:"+userId);
         return ResponseResult.okResult();
     }
+
+    //
 }

@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeGenerator",
+            "request": "launch",
+            "mainClass": "com.blog.common.CodeGenerator",
+            "projectName": "blog-framework"
+        },
+        {
+            "type": "java",
             "name": "BeanCopyUtils",
             "request": "launch",
             "mainClass": "com.blog.utils.BeanCopyUtils",

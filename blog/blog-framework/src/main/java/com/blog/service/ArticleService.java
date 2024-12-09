@@ -12,7 +12,7 @@ import com.blog.entity.Article;
  * @author ac
  * @since 2024-12-03
  */
-public interface IArticleService extends IService<Article> {
+public interface ArticleService extends IService<Article> {
     ResponseResult hotArticleList();
 
     ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId);
