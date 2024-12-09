@@ -25,6 +25,7 @@ public class BlogLoginController {
 
     @RequestMapping("/login")
     public ResponseResult login(@RequestBody User User){
+        
         return blogLoginService.login(User);
     }
 

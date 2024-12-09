@@ -21,11 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsUtils;
 
 import com.blog.filter.JwtAuthenticationTokenFilter;
+import com.blog.handler.security.AccessDeniedHandlerImpl;
+import com.blog.handler.security.AuthenticationEntryPointImpl;
 
 /**
- * @Author: lzw
+ * @Author: AC
  * @Description: SpringSecurity 配置类
- * @Date: 2024/12/3 16:06
+ * @Date: 2024/12/6 16:06
  */
 @Configuration
 @EnableWebSecurity
@@ -33,10 +35,10 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    // @Autowired
-    // private AuthenticationEntryPointImpl authenticationEntryPoint;
-    // @Autowired
-    // private AccessDeniedHandlerImpl accessDeniedHandler;
+    @Autowired
+    private AuthenticationEntryPointImpl authenticationEntryPoint;
+    @Autowired
+    private AccessDeniedHandlerImpl accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,9 +53,9 @@ public class SecurityConfig {
                 // 禁用默认登出页
                 .logout(AbstractHttpConfigurer::disable)
                 // 设置异常处理器
-                // .exceptionHandling(exceptions ->
-                // exceptions.authenticationEntryPoint(authenticationEntryPoint)
-                // .accessDeniedHandler(accessDeniedHandler))
+                .exceptionHandling(exceptions ->
+                exceptions.authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler))
                 // 前后端分离是无状态的，不需要session了，直接禁用。
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
