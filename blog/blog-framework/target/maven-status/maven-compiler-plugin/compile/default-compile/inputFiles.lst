@@ -30,6 +30,7 @@ C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\b
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\config\redis\FastJsonRedisSerializer.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\handler\exceptionHandler\GlobalExceptionHandler.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\mapper\CommentMapper.java
+C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\utils\SecurityUtils.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\service\impl\notUsed\SysMenuServiceImpl.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\entity\SysRole.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\service\impl\notUsed\ArticleTagServiceImpl.java
@@ -56,6 +57,7 @@ C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\b
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\mapper\TagMapper.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\utils\redis\RedisCache.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\entity\Article.java
+C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\handler\mybatisPlus\MyMetaObjectHandler.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\entity\Link.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\entity\SysUserRole.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-framework\src\main\java\com\blog\vo\HotArticleVo.java

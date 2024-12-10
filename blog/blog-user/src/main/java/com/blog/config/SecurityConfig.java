@@ -49,9 +49,8 @@ public class SecurityConfig {
                 // 禁用默认登出页
                 .logout(AbstractHttpConfigurer::disable)
                 // 设置异常处理器
-                .exceptionHandling(exceptions ->
-                exceptions.authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler))
+                .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
                 // 前后端分离是无状态的，不需要session了，直接禁用。
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
@@ -60,9 +59,9 @@ public class SecurityConfig {
                         // 允许直接访问授权登录接口
                         .antMatchers("/login").permitAll()
                         .antMatchers("/logout").authenticated()
-                        //.antMatchers("/link/getAllLink").authenticated()
+                        .antMatchers("/user/userInfo").authenticated()
+                        .antMatchers("/upload").authenticated()
                         // 允许任意请求被已登录用户访问，不检查Authority
-                        //.antMatchers("/logout").authenticated()
                         // 除上面外的所有请求都不需要登录
                         .anyRequest().permitAll())
                 // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter

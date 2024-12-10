@@ -1,5 +1,6 @@
 package com.blog.service;
 
+import com.blog.common.ResponseResult;
 import com.blog.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-12-09
  */
 public interface UserService extends IService<User> {
+
+    ResponseResult userInfo();
 
 }

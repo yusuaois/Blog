@@ -23,3 +23,8 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+
+oss:
+  accessKey: DbkCk9on0rWQbbEs2jyykrI3ReyVR4tCp-u5P-HP
+  secretKey: pWIcsLbaGRs-ZhGpsup2l_0BFV-x8075kecXvTMI
+  bucket: yusuaois-blog
