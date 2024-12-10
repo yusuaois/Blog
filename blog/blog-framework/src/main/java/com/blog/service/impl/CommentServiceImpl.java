@@ -1,10 +1,13 @@
 package com.blog.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.entity.Comment;
+import com.blog.exception.SystemException;
 import com.blog.mapper.CommentMapper;
 import com.blog.service.CommentService;
 import com.blog.service.UserService;
@@ -13,10 +16,11 @@ import com.blog.vo.CommentVo;
 import com.blog.vo.PageVo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -86,5 +90,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //通过createBy查询用户名称并赋值
         //通过toCommentUserId查询用户名称并赋值
         return commentVos;
+    }
+
+    @Override
+    public ResponseResult addComment(@RequestBody Comment comment){
+        //安全性检测
+        //内容不为空
+        if(!StringUtils.hasText(comment.getContent()))throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        //TODO敏感词处理？
+        save(comment);
+        return ResponseResult.okResult();
     }
 }

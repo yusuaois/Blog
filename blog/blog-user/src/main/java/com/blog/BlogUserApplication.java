@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.blog.controller", "com.blog.mapper", "com.blog.service", "com.blog.entity", "com.blog.config", "com.blog.common", "com.blog.util", "com.blog.config.redis", "com.blog.utils.redis", "com.blog.filter","com.blog.handler","com.blog.handler.security","com.blog.exception","com.blog.handler.exceptionHandler"})
+@ComponentScan(basePackages = {"com.blog.controller", "com.blog.mapper", "com.blog.service", "com.blog.entity", "com.blog.config", "com.blog.common", "com.blog.util", "com.blog.config.redis", "com.blog.utils.redis", "com.blog.filter","com.blog.handler","com.blog.handler.security","com.blog.exception","com.blog.handler.exceptionHandler","com.blog.handler.mybatisPlus"})
 @MapperScan("com.blog.mapper")
 public class BlogUserApplication {
     public static void main(String[] args) {
