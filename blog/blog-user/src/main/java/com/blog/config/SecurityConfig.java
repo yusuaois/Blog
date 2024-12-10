@@ -60,7 +60,7 @@ public class SecurityConfig {
                         // 允许直接访问授权登录接口
                         .antMatchers("/login").permitAll()
                         .antMatchers("/logout").authenticated()
-                        .antMatchers("/link/getAllLink").authenticated()
+                        //.antMatchers("/link/getAllLink").authenticated()
                         // 允许任意请求被已登录用户访问，不检查Authority
                         //.antMatchers("/logout").authenticated()
                         // 除上面外的所有请求都不需要登录

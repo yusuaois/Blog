@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.common.ResponseResult;
+import com.blog.constants.SystemConstants;
 import com.blog.entity.Comment;
 import com.blog.service.CommentService;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * <p>
@@ -26,12 +30,18 @@ public class CommentController {
 
     @RequestMapping("/commentList") 
     public ResponseResult commentList(Long articleId,Integer pageNum,Integer pageSize){
-        return commentService.commentList(articleId,pageNum,pageSize);
+        return commentService.commentList(SystemConstants.ARTICLE_COMMENT,articleId,pageNum,pageSize);
     }
 
     @RequestMapping
     public ResponseResult addComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
     }
+
+    @RequestMapping("/linkCommentList")
+    public ResponseResult linkCommentList(@RequestParam Integer pageNum, Integer pageSize) {
+        return commentService.commentList(SystemConstants.LINK_COMMENT,null,pageNum, pageSize);
+    }
+    
     
 }
