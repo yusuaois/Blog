@@ -1,6 +1,8 @@
 package com.blog.vo;
 
-import java.sql.Date;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +27,9 @@ public class CommentVo {
 
     private Long createBy;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String username;
+
+    private List<CommentVo> children;
 }

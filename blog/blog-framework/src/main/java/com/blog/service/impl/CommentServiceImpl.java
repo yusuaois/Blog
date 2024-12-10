@@ -13,6 +13,7 @@ import com.blog.vo.CommentVo;
 import com.blog.vo.PageVo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,29 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         page(page, queryWrapper);
 
         List<CommentVo> commentVolist = toCommentVoList(page.getRecords());
-        //
+        
+        //TODO
+        //查询所有根评论对应的子评论的集合
+        for(CommentVo commentVo : commentVolist){
+            List<CommentVo> childrComments = getChildren(commentVo.getId());
+            commentVo.setChildren(childrComments);
+        }
+
         return ResponseResult.okResult(new PageVo(commentVolist, page.getTotal()));
+    }
+
+    //@Param id 根评论id
+    //@return
+    //根据评论的id查找子评论
+    private List<CommentVo> getChildren(Long id) {
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getRootId, id);
+
+        queryWrapper.orderByAsc(Comment::getCreateTime);
+        
+        List<Comment> comments = list(queryWrapper);
+        List<CommentVo> commentVos =  toCommentVoList(comments);
+        return commentVos;
     }
 
     private List<CommentVo> toCommentVoList(List<Comment> comments) {
@@ -56,7 +78,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             // 根据创建人id查询创建人信息
             //如果toCommentId不为-1才进行查询
             if (commentVo.getToCommentId() != -1) {
-                String toCommentUserName = userService.getById(commentVo.getToCommentId()).getNickName();
+                String toCommentUserName = userService.getById(commentVo.getToCommentUserId()).getNickName();
                 commentVo.setToCommentUserName(toCommentUserName);
             }
         }
