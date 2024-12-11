@@ -57,13 +57,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<Article> result = page.getRecords();
 
-        // bean拷贝 将实体类转换成vo类：赋值
-        // List<hotArticleVo> articleVos = new ArrayList<>();
-        // for(Article article:result){
-        // hotArticleVo Vo = new hotArticleVo();
-        // BeanUtils.copyProperties(article,Vo);
-        // articleVos.add(Vo);
-        // }
+        result.stream()
+                .peek(article -> {
+                    Integer viewCount = (Integer) redisCache.getCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT,
+                            article.getId().toString());
+                    if (viewCount != null) {
+                        article.setViewCount(viewCount.longValue());
+                    }
+                })
+                .collect(Collectors.toList());
+
         List<HotArticleVo> vs = BeanCopyUtils.copyBeanList(result, HotArticleVo.class);
 
         return ResponseResult.okResult(vs);
@@ -85,10 +88,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 查询分类名称（名称过长处理）
         List<Article> articles = page.getRecords();
-        
+
         // articleId查询articleName进行设置
         articles.stream()
-                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+                .peek(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+                .peek(article -> {
+                    Integer viewCount = (Integer) redisCache.getCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT,
+                            article.getId().toString());
+                    if (viewCount != null) {
+                        article.setViewCount(viewCount.longValue());
+                    }
+                })
+
                 .collect(Collectors.toList());
 
         // for (Article article : articles) {
@@ -98,6 +109,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 封装查询结果
         List<ArticleListVo> articleVo = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
+
         // 封装分页对象
         PageVo pageVo = new PageVo(articleVo, page.getTotal());
 
@@ -106,21 +118,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult getArticleDetail(Long id){
+    public ResponseResult getArticleDetail(Long id) {
         // 根据id查询文章
         Article article = getById(id);
-        //转化成Vo
-        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article,ArticleDetailVo.class);
-        //查询对应的分类名称
-        Category category = categoryService.getById(articleDetailVo.getCategoryId()) ;
-        //根据分类id查询分类名称
-        if(category != null)articleDetailVo.setCategoryName(category.getName());
-        //封装相应返回
+        // 从redis中获取ViewCount
+        Integer viewCount = redisCache.getCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT, id.toString());
+        article.setViewCount(viewCount.longValue());
+        // 转化成Vo
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
+        // 查询对应的分类名称
+        Category category = categoryService.getById(articleDetailVo.getCategoryId());
+        // 根据分类id查询分类名称
+        if (category != null)
+            articleDetailVo.setCategoryName(category.getName());
+        // 封装相应返回
         return ResponseResult.okResult(articleDetailVo);
     }
 
     @Override
-    public ResponseResult updateViewCount(Long id){
+    public ResponseResult updateViewCount(Long id) {
         redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT, id.toString(), 1);
         return ResponseResult.okResult();
     }
