@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,23 +22,28 @@ import com.blog.service.ArticleService;
 public class ArticleController {
     
     @Autowired
-    private ArticleService ArticleService;
+    private ArticleService articleService;
 
     @RequestMapping("/hotArticleList")
     public ResponseResult hotArticleList(){
         
-        ResponseResult result =  ArticleService.hotArticleList();
+        ResponseResult result =  articleService.hotArticleList();
         return result;
     }
 
     @RequestMapping("/articleList")
     public ResponseResult articleList(Integer pageNum, Integer pageSize,Long categoryId){
-        return  ArticleService.articleList(pageNum, pageSize, categoryId);
+        return  articleService.articleList(pageNum, pageSize, categoryId);
     }
 
     @RequestMapping("/{id}")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
-        return ArticleService.getArticleDetail(id);
+        return articleService.getArticleDetail(id);
+    }
+
+    @PutMapping("/updateViewCount/{id}")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+        return articleService.updateViewCount(id);
     }
 
 }

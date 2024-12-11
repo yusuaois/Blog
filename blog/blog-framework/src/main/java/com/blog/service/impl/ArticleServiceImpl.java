@@ -10,6 +10,7 @@ import com.blog.mapper.ArticleMapper;
 import com.blog.service.ArticleService;
 import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.redis.RedisCache;
 import com.blog.vo.ArticleDetailVo;
 import com.blog.vo.ArticleListVo;
 import com.blog.vo.HotArticleVo;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 /**
@@ -37,6 +40,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Lazy
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private RedisCache redisCache;
 
     @Override
     public ResponseResult hotArticleList() {
@@ -111,5 +117,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if(category != null)articleDetailVo.setCategoryName(category.getName());
         //封装相应返回
         return ResponseResult.okResult(articleDetailVo);
+    }
+
+    @Override
+    public ResponseResult updateViewCount(Long id){
+        redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT, id.toString(), 1);
+        return ResponseResult.okResult();
     }
 }
