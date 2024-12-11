@@ -1,9 +1,12 @@
 package com.blog.controller;
 
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.common.ResponseResult;
+import com.blog.entity.User;
 import com.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UserController {
         return userService.userInfo();
     }
 
-    
+    @PutMapping("/userInfo")
+    public ResponseResult updateUserInfo(@RequestBody User user) {
+        return userService.updateUserInfo(user);
+    }
     
 }

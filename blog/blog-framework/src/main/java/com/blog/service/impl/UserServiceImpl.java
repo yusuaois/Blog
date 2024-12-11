@@ -10,6 +10,7 @@ import com.blog.vo.UserInfoVo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -30,5 +31,11 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         // 封装成UserInfoVo
         UserInfoVo vo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
         return ResponseResult.okResult(vo);
+    }
+
+    @Override
+    public ResponseResult updateUserInfo(User user){
+        updateById(user);
+        return ResponseResult.okResult(); 
     }
 }
