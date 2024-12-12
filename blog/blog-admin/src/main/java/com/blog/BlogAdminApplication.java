@@ -9,16 +9,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@EnableScheduling
-//Swagger3
-
 @MapperScan("com.blog.mapper")
-public class BlogUserApplication {
+public class BlogAdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(BlogUserApplication.class, args);
+        SpringApplication.run(BlogAdminApplication.class, args);
     }
 }
-
 
 // @ComponentScan(basePackages = { 
 //     "com.blog.controller","com.blog.mapper", 

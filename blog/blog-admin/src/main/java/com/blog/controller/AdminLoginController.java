@@ -12,7 +12,7 @@ import com.blog.common.ResponseResult;
 
 import com.blog.entity.User;
 import com.blog.exception.SystemException;
-import com.blog.service.BlogLoginService;
+import com.blog.service.AdminLoginService;
 
 
 /**
@@ -24,25 +24,21 @@ import com.blog.service.BlogLoginService;
  * @since 2024-12-03
  */
 @RestController
-public class BlogLoginController {
+public class AdminLoginController {
     @Autowired
-    private BlogLoginService blogLoginService;
+    private AdminLoginService adminLoginService;
 
-    @RequestMapping("/login")
-    @SystemLog(businessName = "用户登录")
+    @RequestMapping("/user/login")
+    @SystemLog(businessName = "管理员登录")
     public ResponseResult login(@RequestBody User User){
         if(!StringUtils.hasText(User.getUserName())){
             //提示必须输入用户名
             throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
         }
-        return blogLoginService.login(User);
+        return adminLoginService.login(User);
     }
 
-    @RequestMapping("/logout")
-    @SystemLog(businessName = "用户登出")
-    public ResponseResult logout(){
-        return blogLoginService.logout();
-    }
+
 
     
     

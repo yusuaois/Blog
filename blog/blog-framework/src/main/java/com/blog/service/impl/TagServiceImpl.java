@@ -1,9 +1,9 @@
-package com.blog.service.impl.notUsed;
+package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.entity.Tag;
 import com.blog.mapper.TagMapper;
-import com.blog.service.notUsed.ITagService;
+import com.blog.service.TagService;
 
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-12-03
  */
 @Service
-public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements ITagService {
+public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
 }

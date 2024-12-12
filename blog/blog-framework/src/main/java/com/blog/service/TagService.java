@@ -1,4 +1,4 @@
-package com.blog.service.notUsed;
+package com.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.entity.Tag;
@@ -11,6 +11,6 @@ import com.blog.entity.Tag;
  * @author ac
  * @since 2024-12-03
  */
-public interface ITagService extends IService<Tag> {
+public interface TagService extends IService<Tag> {
 
 }

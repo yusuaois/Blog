@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BlogAdminApplication",
+            "request": "launch",
+            "mainClass": "com.blog.BlogAdminApplication",
+            "projectName": "blog-admin"
+        },
+        {
+            "type": "java",
             "name": "CodeGenerator",
             "request": "launch",
             "mainClass": "com.blog.common.CodeGenerator",

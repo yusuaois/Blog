@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.service.UploadService;
 
@@ -14,6 +15,7 @@ public class UpLoadController {
     private UploadService uploadService;
 
     @RequestMapping("/upload")
+    @SystemLog(businessName = "上传文件")
     public ResponseResult uploadImg(MultipartFile img){
         return uploadService.uploadImg(img);
     }

@@ -32,6 +32,7 @@ public class UserController {
 
 
     @RequestMapping("/userInfo")
+    @SystemLog(businessName = "获取用户信息")
     public ResponseResult userInfo() {
         return userService.userInfo();
     }
@@ -43,6 +44,7 @@ public class UserController {
     }
 
     @RequestMapping("/register")
+    @SystemLog(businessName = "用户注册")
     public ResponseResult register(@RequestBody User user) {
         return userService.register(user);
     }

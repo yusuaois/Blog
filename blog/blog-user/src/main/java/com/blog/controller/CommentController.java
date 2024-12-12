@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Comment;
@@ -29,16 +30,19 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping("/commentList") 
+    @SystemLog(businessName = "获取评论列表")
     public ResponseResult commentList(Long articleId,Integer pageNum,Integer pageSize){
         return commentService.commentList(SystemConstants.ARTICLE_COMMENT,articleId,pageNum,pageSize);
     }
 
     @RequestMapping
+    @SystemLog(businessName = "获取评论列表")
     public ResponseResult addComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
     }
 
     @RequestMapping("/linkCommentList")
+    @SystemLog(businessName = "获取友链评论列表")
     public ResponseResult linkCommentList(@RequestParam Integer pageNum, Integer pageSize) {
         return commentService.commentList(SystemConstants.LINK_COMMENT,null,pageNum, pageSize);
     }

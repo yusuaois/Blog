@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.blog.service.CategoryService;
+import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 /**
  * <p>
@@ -20,6 +21,7 @@ public class CategoryController {
     @Autowired CategoryService categoryService;
 
     @RequestMapping("/getCategoryList")
+    @SystemLog(businessName = "获取分类列表")
     public ResponseResult getCategoryList(){
         return categoryService.getCategoryList();
     }
