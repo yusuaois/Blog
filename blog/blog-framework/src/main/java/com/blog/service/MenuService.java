@@ -17,4 +17,6 @@ public interface MenuService extends IService<SysMenu> {
 
     List<String> selectPermsByUserId(Long id);
 
+    List<SysMenu> selectRouterMenuTreeByUserId(Long id);
+
 }

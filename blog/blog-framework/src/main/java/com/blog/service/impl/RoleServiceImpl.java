@@ -23,7 +23,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     @Override
     public List<String> selectRoleKeyByUserId(Long id) {
         //判断是否为管理员，如果是返回集合中只需要有admin即可
-        if(id==1L){
+        if(id.equals(1L)){
             List<String> roleKeys = new ArrayList<>();
             roleKeys.add("admin");
             return roleKeys;

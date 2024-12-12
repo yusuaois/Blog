@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 
 /**
@@ -25,6 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sys_menu")
+@Accessors(chain = true)
 public class SysMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -117,4 +120,7 @@ public class SysMenu implements Serializable {
     private String remark;
 
     private String delFlag;
+
+    @TableField(exist=false)
+    private List<SysMenu> children;    
 }
