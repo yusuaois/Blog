@@ -25,4 +25,8 @@ public class SystemConstants
 
     //文章浏览量
     public static final String ARTICLE_VIEW_COUNT = "article:ViewCount";
+
+    public static final String BUTTON = "F";
+
+    public static final String MENU = "C";
 }

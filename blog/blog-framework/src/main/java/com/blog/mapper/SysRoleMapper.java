@@ -1,5 +1,7 @@
 package com.blog.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -15,5 +17,7 @@ import com.blog.entity.SysRole;
  */
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRole> {
+
+    List<String> selectRoleKeyByUserId(Long id);
 
 }
