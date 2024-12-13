@@ -22,6 +22,7 @@ import com.blog.service.SystemLoginService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.vo.AdminUserInfoVo;
+import com.blog.vo.PageVo;
 import com.blog.vo.RoutersVo;
 import com.blog.vo.UserInfoVo;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,7 +84,7 @@ public class SystemLoginController {
     }
 
     @RequestMapping("/user/logout")
-    public ResponseResult logout() {
+    public ResponseResult<PageVo> logout() {
         return systemLoginService.logout();
     }
 
