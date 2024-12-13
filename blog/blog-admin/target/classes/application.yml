@@ -23,15 +23,3 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
-
-
-
-
-# springdoc:
-#   swagger-ui:
-#     # 修改Swagger UI路径
-#     path: /swagger-ui.html
-#     # 开启Swagger UI界面
-#     enabled: true
-# 请求路径匹配策略
-#spring.mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER

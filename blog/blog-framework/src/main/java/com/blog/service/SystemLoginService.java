@@ -17,6 +17,8 @@ public interface SystemLoginService extends IService<User> {
 
      ResponseResult login(User user);
 
+     ResponseResult logout();
+
 
 
 }

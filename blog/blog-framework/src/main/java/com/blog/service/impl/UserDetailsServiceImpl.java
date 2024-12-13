@@ -28,8 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
-        // 如果有查到用户信息，封装成UserDetails对象返回
-        //TODO 查询权限信息封装
+        // 如果有查到用户信息，封装成LoginUser对象返回
+        //查询权限信息封装
         return new LoginUser(user);
     }
 }

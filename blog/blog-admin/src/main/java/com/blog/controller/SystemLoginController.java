@@ -76,10 +76,15 @@ public class SystemLoginController {
     @RequestMapping("getRouters")
     public ResponseResult<RoutersVo> getRouters() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        //查询menu 结果是tree的形式（层级）
+        // 查询menu 结果是tree的形式（层级）
         List<SysMenu> menus = menuService.selectRouterMenuTreeByUserId(loginUser.getUser().getId());
-        //封装数据并返回
-    return ResponseResult.okResult(new RoutersVo(menus));
-}
+        // 封装数据并返回
+        return ResponseResult.okResult(new RoutersVo(menus));
+    }
+
+    @RequestMapping("/user/logout")
+    public ResponseResult logout() {
+        return systemLoginService.logout();
+    }
 
 }

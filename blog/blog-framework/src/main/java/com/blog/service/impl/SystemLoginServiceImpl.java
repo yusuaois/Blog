@@ -7,6 +7,7 @@ import com.blog.entity.User;
 import com.blog.mapper.SysUserMapper;
 import com.blog.service.SystemLoginService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.SecurityUtils;
 import com.blog.utils.redis.JwtUtil;
 
 import java.util.HashMap;
@@ -17,13 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 
 
 import com.blog.utils.redis.RedisCache;
-import com.blog.vo.BlogUserLoginVo;
-import com.blog.vo.UserInfoVo;
 
 /**
  * <p>
@@ -63,7 +62,12 @@ public class SystemLoginServiceImpl extends ServiceImpl<SysUserMapper, User> imp
         return ResponseResult.okResult(map);
     }
 
-
+    @Override
+    public ResponseResult logout() {
+        Long userId = SecurityUtils.getUserId();
+        redisCache.deleteObject("adminlogin:"+userId);
+        return ResponseResult.okResult();
+    }
 
     //
 }
