@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Article;
+import com.blog.entity.ArticleTag;
 import com.blog.entity.Category;
 import com.blog.mapper.ArticleMapper;
 import com.blog.service.ArticleService;
+import com.blog.service.ArticleTagService;
 import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.redis.RedisCache;
@@ -15,6 +17,8 @@ import com.blog.vo.ArticleDetailVo;
 import com.blog.vo.ArticleListVo;
 import com.blog.vo.HotArticleVo;
 import com.blog.vo.PageVo;
+import com.blog.dto.AddArticleDto;
+import com.blog.dto.TagListDto;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +27,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -138,6 +143,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult updateViewCount(Long id) {
         redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT, id.toString(), 1);
+        return ResponseResult.okResult();
+    }
+
+    @Autowired
+    private ArticleTagService articleTagService;
+
+    @Override
+    @Transactional
+    public ResponseResult add(AddArticleDto articleDto) {
+        //添加 博客
+        Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
+        save(article);
+
+
+        List<ArticleTag> articleTags = articleDto.getTags().stream()
+                .map(tagId -> new ArticleTag(article.getId(), tagId))
+                .collect(Collectors.toList());
+
+        //添加 博客和标签的关联
+        articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
     }
 }

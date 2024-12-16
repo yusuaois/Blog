@@ -39,7 +39,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
                 // 禁用basic明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // 前后端分离架构不需要csrf保护
@@ -56,11 +55,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         // 注意这里，是允许前端跨域联调的一个必要配置
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                        // 允许直接访问授权登录接口
-                        .antMatchers("/login").permitAll()
+                        
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/user/userInfo").authenticated()
-                        .antMatchers("/upload").authenticated()
+
+
                         // 允许任意请求被已登录用户访问，不检查Authority
                         // 除上面外的所有请求都不需要登录
                         .anyRequest().permitAll())

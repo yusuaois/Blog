@@ -65,5 +65,10 @@ public class TagController {
     public ResponseResult updateTag(@RequestBody Tag tag) {
         return tagService.updateTag(tag);
     }
+
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag() {
+        return tagService.listAllTag();
+    }
     
 }

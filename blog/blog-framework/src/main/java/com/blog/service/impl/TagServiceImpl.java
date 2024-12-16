@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.injector.methods.UpdateById;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
+import com.blog.constants.SystemConstants;
 import com.blog.dto.TagListDto;
 import com.blog.entity.Tag;
 import com.blog.mapper.TagMapper;
@@ -15,6 +16,7 @@ import com.blog.vo.PageVo;
 import com.blog.vo.TagInfoVo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -70,5 +72,23 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public ResponseResult updateTag(Tag tag){
         updateById(tag);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getTagList(){
+        List<Tag> tags = list();
+        List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);
+        return ResponseResult.okResult(tagListVos);
+    }
+
+    @Override
+    public ResponseResult listAllTag(){
+        //筛选状态正常标签
+        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Tag::getDelFlag,SystemConstants.TAG_STATUS_NORMAL);
+
+        List<Tag> tags = list(queryWrapper);
+        List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);
+        return ResponseResult.okResult(tagListVos);
     }
 }

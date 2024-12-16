@@ -1,6 +1,6 @@
 package com.blog.aspect;
 
-import java.net.http.HttpRequest;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,8 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.blog.annotation.SystemLog;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @Aspect
@@ -48,8 +47,8 @@ public class LogAspect {
     }
 
     private void handleAfter(Object proceed) {
-        //打印出参
-        log.info("Response       : {}",JSON.toJSONString(proceed));
+        // 打印出参
+        log.info("Response       : {}", JSON.toJSONString(proceed));
     }
 
     private void handleBefore(ProceedingJoinPoint joinPoint) {
@@ -59,6 +58,9 @@ public class LogAspect {
 
         // 获取被增强方法上面的注解对象
         SystemLog systemLog = getSystemLog(joinPoint);
+        // 检查请求参数是否包含MultipartFile类型
+        boolean containsMultipartFile = Arrays.stream(joinPoint.getArgs())
+                .anyMatch(arg -> arg instanceof MultipartFile);
 
         // 打印
         log.info("=======Start=======");
@@ -74,8 +76,10 @@ public class LogAspect {
                 ((MethodSignature) joinPoint.getSignature()).getName());
         // 打印请求的 IP
         log.info("IP             : {}", request.getRemoteHost());
-        // 打印请求入参
-        log.info("Request Args   : {}", JSON.toJSONString(joinPoint.getArgs()));
+        // 如果不包含MultipartFile类型，则打印请求入参
+        if (!containsMultipartFile) {
+            log.info("Request Args   : {}", JSON.toJSONString(joinPoint.getArgs()));
+        }
     }
 
     private SystemLog getSystemLog(ProceedingJoinPoint joinPoint) {
