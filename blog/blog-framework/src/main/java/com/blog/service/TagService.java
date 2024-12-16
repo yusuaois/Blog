@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.common.ResponseResult;
 import com.blog.dto.TagListDto;
 import com.blog.entity.Tag;
+import com.blog.vo.TagInfoVo;
 
 /**
  * <p>
@@ -20,5 +21,9 @@ public interface TagService extends IService<Tag> {
     ResponseResult addTag(Tag tag);
 
     ResponseResult deleteTag(Long id);
+
+    ResponseResult getTagInfo(Long id);
+
+    ResponseResult updateTag(Tag tag);
 
 }

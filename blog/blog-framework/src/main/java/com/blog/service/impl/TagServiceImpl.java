@@ -1,6 +1,7 @@
 package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.UpdateById;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
@@ -8,13 +9,17 @@ import com.blog.dto.TagListDto;
 import com.blog.entity.Tag;
 import com.blog.mapper.TagMapper;
 import com.blog.service.TagService;
+import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.vo.PageVo;
+import com.blog.vo.TagInfoVo;
 
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -54,5 +59,16 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult getTagInfo(Long id){
+        Tag tag = getById(id);
+        TagInfoVo tagInfoVo = BeanCopyUtils.copyBean(tag, TagInfoVo.class);
+        return ResponseResult.okResult(tagInfoVo);
+    }
 
+    @Override
+    public ResponseResult updateTag(Tag tag){
+        updateById(tag);
+        return ResponseResult.okResult();
+    }
 }
