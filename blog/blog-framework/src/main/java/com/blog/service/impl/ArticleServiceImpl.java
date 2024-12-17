@@ -18,7 +18,6 @@ import com.blog.vo.ArticleListVo;
 import com.blog.vo.HotArticleVo;
 import com.blog.vo.PageVo;
 import com.blog.dto.AddArticleDto;
-import com.blog.dto.TagListDto;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,8 +28,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
@@ -114,11 +111,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 })
 
                 .collect(Collectors.toList());
-
-        // for (Article article : articles) {
-        // Category category = categoryService.getById(article.getCategoryId());
-        // article.setCategoryName(category.getName());
-        // }
 
         // 封装查询结果
         List<ArticleListVo> articleVo = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);

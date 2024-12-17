@@ -3,6 +3,7 @@ package com.blog.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.blog.common.ResponseResult;
 import com.blog.entity.SysRole;
 
 /**
@@ -16,5 +17,7 @@ import com.blog.entity.SysRole;
 public interface RoleService extends IService<SysRole> {
 
     List<String> selectRoleKeyByUserId(Long id);
+
+    ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status);
 
 }

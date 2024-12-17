@@ -25,8 +25,6 @@ import com.blog.vo.AdminUserInfoVo;
 import com.blog.vo.PageVo;
 import com.blog.vo.RoutersVo;
 import com.blog.vo.UserInfoVo;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <p>
