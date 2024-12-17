@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -164,5 +165,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
+    }
+
+    public ResponseResult selectArticleList(Integer pageNum,Integer pageSize,String title,String summary){
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        //根据标题和摘要进行模糊查询
+        queryWrapper.like(StringUtils.hasText(title),Article::getTitle,title);
+        queryWrapper.like(StringUtils.hasText(summary),Article::getSummary,summary);
+        //分页查询
+        Page page = new Page(pageNum,pageSize);
+        page(page,queryWrapper);
+        List<Article> records = page.getRecords();
+        PageVo pageVo = new PageVo(records,page.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 }

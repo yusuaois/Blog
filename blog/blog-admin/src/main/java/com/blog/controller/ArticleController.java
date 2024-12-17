@@ -12,6 +12,9 @@ import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.dto.AddArticleDto;
 import com.blog.service.ArticleService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 /**
@@ -33,5 +36,11 @@ public class ArticleController {
     public ResponseResult add(@RequestBody AddArticleDto article){
         return articleService.add(article);
     }
+
+    @GetMapping("/list")
+    public ResponseResult selectArticleList(Integer pageNum,Integer pageSize,String title,String summary) {
+        return articleService.selectArticleList(pageNum,pageSize,title,summary);
+    }
+    
 
 }
