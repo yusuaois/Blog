@@ -9,6 +9,8 @@ import com.blog.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 
 /**
@@ -30,6 +32,12 @@ public class RoleController {
     public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status) {
         return roleService.listRole(pageNum, pageSize, roleName, status);
     }
+
+    @RequestMapping("/changeStatus")
+    public ResponseResult changeStatus(Long roleId,String status) {
+        return roleService.changeStatus(roleId,status);
+    }
+    
     
 
 }

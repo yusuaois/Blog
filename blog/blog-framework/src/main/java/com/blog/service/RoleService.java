@@ -20,4 +20,6 @@ public interface RoleService extends IService<SysRole> {
 
     ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status);
 
+    ResponseResult changeStatus(Long roleId, String status);
+
 }

@@ -64,4 +64,16 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         return ResponseResult.okResult(pageVo);
 
     }
+
+    @Override
+    public ResponseResult changeStatus(Long roleId,String status){
+        // 需要有修改角色状态的功能。
+        // ​ 要求能够根据角色id修改角色状态。
+        // ​ 要求能够修改成功后返回成功信息。
+        SysRole role = new SysRole();
+        role.setId(roleId);
+        role.setStatus(status);
+        updateById(role);
+        return ResponseResult.okResult();
+    }
 }
