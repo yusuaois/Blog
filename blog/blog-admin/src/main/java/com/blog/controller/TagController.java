@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ import com.blog.vo.PageVo;
 import com.blog.vo.TagInfoVo;
 
 import org.springframework.web.bind.annotation.RequestMethod;
-
 
 /**
  * <p>
@@ -70,5 +70,5 @@ public class TagController {
     public ResponseResult listAllTag() {
         return tagService.listAllTag();
     }
-    
+
 }

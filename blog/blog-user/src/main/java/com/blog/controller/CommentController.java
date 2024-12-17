@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class CommentController {
         return commentService.commentList(SystemConstants.ARTICLE_COMMENT,articleId,pageNum,pageSize);
     }
 
-    @RequestMapping
+    @GetMapping
     @SystemLog(businessName = "获取评论列表")
     public ResponseResult addComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);

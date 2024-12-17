@@ -8,11 +8,13 @@ import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Comment;
+import com.blog.entity.User;
 import com.blog.exception.SystemException;
 import com.blog.mapper.CommentMapper;
 import com.blog.service.CommentService;
 import com.blog.service.UserService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.SecurityUtils;
 import com.blog.vo.CommentVo;
 import com.blog.vo.PageVo;
 
@@ -47,7 +49,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 根评论 rootId为-1
         queryWrapper.eq(Comment::getRootId, -1);
 
-        //评论类型
+        //TODO 评论类型??? 
         queryWrapper.eq(Comment::getType, commentType);
         
         // 分页查询
@@ -56,7 +58,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         List<CommentVo> commentVolist = toCommentVoList(page.getRecords());
         
-        //TODO
         //查询所有根评论对应的子评论的集合
         for(CommentVo commentVo : commentVolist){
             List<CommentVo> childrComments = getChildren(commentVo.getId());
@@ -101,9 +102,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public ResponseResult addComment(@RequestBody Comment comment){
-        //安全性检测
+        //安全性检测 根据上下文判断当前是否登录
+        // if (SecurityUtils.getLoginUser() == null) {
+        //     throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
+        // }
         //内容不为空
-        if(!StringUtils.hasText(comment.getContent()))throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        if((!StringUtils.hasText(comment.getContent())))throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         //TODO敏感词处理？
         save(comment);
         return ResponseResult.okResult();

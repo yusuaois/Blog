@@ -31,4 +31,8 @@ public class SystemConstants
     public static final String MENU = "C";
 
     public static final String TAG_STATUS_NORMAL = "0";
+
+    public static final String ADMIN = "1";
+
+    public static final String NORMAL = "0";
 }
