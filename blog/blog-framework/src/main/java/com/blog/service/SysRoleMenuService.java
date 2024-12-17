@@ -1,4 +1,4 @@
-package com.blog.service.notUsed;
+package com.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.entity.SysRoleMenu;
@@ -11,6 +11,6 @@ import com.blog.entity.SysRoleMenu;
  * @author ac
  * @since 2024-12-03
  */
-public interface ISysRoleMenuService extends IService<SysRoleMenu> {
+public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
 }

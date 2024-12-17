@@ -11,11 +11,14 @@ import com.blog.mapper.SysMenuMapper;
 import com.blog.service.MenuService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
+import com.blog.vo.MenuTreeSelectVo;
 import com.blog.vo.MenuVo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -136,4 +139,32 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
         removeById(menuId);
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult treeSelect() {
+        List<SysMenu> menus = list(new QueryWrapper<SysMenu>().orderByAsc("order_num"));
+        // 构建菜单树
+        List<SysMenu> menuTree = builderMenuTree(menus, 0L);
+        // 转换为vo
+        List<MenuTreeSelectVo> vo = transToVoChild(menuTree);
+        return ResponseResult.okResult(vo);
+    }
+
+    private List<MenuTreeSelectVo> transToVoChild(List<SysMenu> menuTree) {
+        List<MenuTreeSelectVo> vo = new ArrayList<>();
+        for (SysMenu menu : menuTree) {
+            MenuTreeSelectVo menuTreeSelectVo = new MenuTreeSelectVo();
+            // 手动复制属性
+            menuTreeSelectVo.setChildren(transToVoChild(menu.getChildren()));
+            menuTreeSelectVo.setId(menu.getId());
+            menuTreeSelectVo.setLabel(menu.getMenuName());
+            menuTreeSelectVo.setParentId(menu.getParentId());    
+            if (menu.getChildren().size() > 0) {
+                menuTreeSelectVo.setChildren(transToVoChild(menu.getChildren()));
+            }
+            vo.add(menuTreeSelectVo);
+        }
+        return vo;
+    }
+    
 }

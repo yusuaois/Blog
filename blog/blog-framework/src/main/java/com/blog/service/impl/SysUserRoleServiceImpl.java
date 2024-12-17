@@ -1,9 +1,9 @@
-package com.blog.service.impl.notUsed;
+package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.entity.SysUserRole;
 import com.blog.mapper.SysUserRoleMapper;
-import com.blog.service.notUsed.ISysUserRoleService;
+import com.blog.service.SysUserRoleService;
 
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-12-03
  */
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements ISysUserRoleService {
+public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
 
 }

@@ -4,5 +4,8 @@ C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\controller\UpLoadController.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\BlogAdminApplication.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\filter\JwtAuthenticationTokenFilter.java
+C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\controller\ArticleController.java
+C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\controller\RoleController.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\controller\TagController.java
 C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\vo\AdminUserInfoVo.java
+C:\Users\LHX\Documents\Code\JavaWeb\Blog\blog\blog-admin\src\main\java\com\blog\controller\MenuController.java
