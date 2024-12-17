@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.dto.AddArticleDto;
-import com.blog.entity.Article;
 import com.blog.service.ArticleService;
+import com.blog.service.MenuService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -34,6 +33,9 @@ public class ArticleController {
     
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private MenuService menuService;
 
     @PostMapping
     public ResponseResult add(@RequestBody AddArticleDto article){
@@ -59,4 +61,6 @@ public class ArticleController {
     public ResponseResult deleteArticleById(@PathVariable("id") Long id) {
         return articleService.deleteArticleById(id);
     }
+
+
 }

@@ -22,4 +22,12 @@ public interface MenuService extends IService<SysMenu> {
 
     ResponseResult listAllMenu(String menuName, String status);
 
+    ResponseResult<SysMenu> addNewMenu(SysMenu menu);
+
+    ResponseResult selectMenuById(Long id);
+
+    ResponseResult updateMenuById(SysMenu menu);
+
+    ResponseResult deleteMenuById(Long menuId);
+
 }
