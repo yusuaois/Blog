@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.dto.AddArticleDto;
+import com.blog.entity.Article;
 import com.blog.service.ArticleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +43,13 @@ public class ArticleController {
         return articleService.selectArticleList(pageNum,pageSize,title,summary);
     }
     
+    @GetMapping("/{id}")
+    public ResponseResult selectArticleById(@PathVariable("id") Long id){
+        return articleService.selectArticleById(id);
+    }
 
+    @PutMapping()
+    public ResponseResult updateArticleById(@RequestBody AddArticleDto articleDto) {
+        return articleService.updateArticleById(articleDto);
+    }
 }

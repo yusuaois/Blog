@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
@@ -48,7 +49,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private CategoryService categoryService;
 
     @Autowired
+    private ArticleMapper articleMapper;
+
+    @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private ArticleTagService articleTagService;
 
     @Override
     public ResponseResult hotArticleList() {
@@ -147,36 +154,48 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseResult.okResult();
     }
 
-    @Autowired
-    private ArticleTagService articleTagService;
-
     @Override
     @Transactional
     public ResponseResult add(AddArticleDto articleDto) {
-        //添加 博客
+        // 添加 博客
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         save(article);
-
 
         List<ArticleTag> articleTags = articleDto.getTags().stream()
                 .map(tagId -> new ArticleTag(article.getId(), tagId))
                 .collect(Collectors.toList());
 
-        //添加 博客和标签的关联
+        // 添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
     }
 
-    public ResponseResult selectArticleList(Integer pageNum,Integer pageSize,String title,String summary){
+    @Override
+    public ResponseResult selectArticleList(Integer pageNum, Integer pageSize, String title, String summary) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        //根据标题和摘要进行模糊查询
-        queryWrapper.like(StringUtils.hasText(title),Article::getTitle,title);
-        queryWrapper.like(StringUtils.hasText(summary),Article::getSummary,summary);
-        //分页查询
-        Page page = new Page(pageNum,pageSize);
-        page(page,queryWrapper);
+        // 根据标题和摘要进行模糊查询
+        queryWrapper.like(StringUtils.hasText(title), Article::getTitle, title);
+        queryWrapper.like(StringUtils.hasText(summary), Article::getSummary, summary);
+        // 分页查询
+        Page page = new Page(pageNum, pageSize);
+        page(page, queryWrapper);
         List<Article> records = page.getRecords();
-        PageVo pageVo = new PageVo(records,page.getTotal());
+        PageVo pageVo = new PageVo(records, page.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult selectArticleById(Long id) {
+        Article article = getById(id);
+        return ResponseResult.okResult(article);
+    }
+
+    @Override
+    public ResponseResult updateArticleById(AddArticleDto articleDto){
+        Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getId, article.getId());
+        update(article, queryWrapper);
+        return ResponseResult.okResult();
     }
 }
