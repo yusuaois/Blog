@@ -2,6 +2,7 @@ package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.SysMenu;
 import com.blog.mapper.SysMenuMapper;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -24,7 +26,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements MenuService {
-
+    @Autowired
+    private SysMenuMapper menuMapper;
+    
     @Override
     public List<String> selectPermsByUserId(Long id) {
         // 如果是管理员，则返回所有权限
@@ -76,4 +80,15 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
         return childrenList;
     }
 
+    @Override
+    public ResponseResult listAllMenu(String menuName,String status){
+        //TODO 不需要建菜单树，直接返回所有菜单
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(menuName),SysMenu::getMenuName,menuName);
+        queryWrapper.eq(StringUtils.hasText(status),SysMenu::getStatus,status);
+        //TODO 菜单要按照父菜单id和orderNum进行排序
+        queryWrapper.orderByAsc(SysMenu::getParentId,SysMenu::getOrderNum);
+        List<SysMenu> menus = menuMapper.selectList(queryWrapper);
+        return ResponseResult.okResult(menus);
+    }
 }

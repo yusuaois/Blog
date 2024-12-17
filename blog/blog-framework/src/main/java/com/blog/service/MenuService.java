@@ -3,6 +3,7 @@ package com.blog.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.blog.common.ResponseResult;
 import com.blog.entity.SysMenu;
 
 /**
@@ -18,5 +19,7 @@ public interface MenuService extends IService<SysMenu> {
     List<String> selectPermsByUserId(Long id);
 
     List<SysMenu> selectRouterMenuTreeByUserId(Long id);
+
+    ResponseResult listAllMenu(String menuName, String status);
 
 }
