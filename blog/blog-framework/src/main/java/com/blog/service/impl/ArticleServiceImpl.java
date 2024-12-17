@@ -198,4 +198,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         update(article, queryWrapper);
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult deleteArticleById(Long id){
+        removeById(id);
+        return ResponseResult.okResult();
+    }
 }
