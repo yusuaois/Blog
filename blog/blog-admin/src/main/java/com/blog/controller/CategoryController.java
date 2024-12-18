@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.blog.annotation.SystemLog;
 import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
+import com.blog.dto.CategoryDto;
 import com.blog.entity.Category;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -78,7 +80,23 @@ public class CategoryController {
     }
     
     @PostMapping()
-    public ResponseResult addCategory(@RequestBody Category category) {
-        return categoryService.addCategory(category);
+    public ResponseResult addCategory(@RequestBody CategoryDto dto) {
+        return categoryService.addCategory(dto);
     }
+
+    @GetMapping("/{id}")
+    public ResponseResult selectCategoryById(@PathVariable Long id) {
+        return categoryService.selectCategoryById(id);
+    }
+
+    @PutMapping()
+    public ResponseResult updateCategory(@RequestBody CategoryDto dto) {
+        return categoryService.updateCategory(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteCategory(@PathVariable Long id) {
+        return categoryService.deleteCategory(id);
+    }
+    
 }

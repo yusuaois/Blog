@@ -1,12 +1,16 @@
 package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
+import com.blog.dto.CategoryDto;
 import com.blog.entity.Article;
 import com.blog.entity.Category;
+import com.blog.exception.SystemException;
 import com.blog.mapper.CategoryMapper;
 import com.blog.service.ArticleService;
 import com.blog.service.CategoryService;
@@ -16,7 +20,6 @@ import com.blog.vo.PageVo;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Set;
@@ -66,8 +69,43 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public ResponseResult addCategory(Category category){
+    public ResponseResult addCategory(CategoryDto dto) {
+        if (!StringUtils.hasText(dto.getName())) {
+            throw new SystemException(AppHttpCodeEnum.NAME_NOT_NULL);
+        }
+        // 名称已存在
+        if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_EXIST);
+        }
+        Category category = BeanCopyUtils.copyBean(dto, Category.class);
         save(category);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult selectCategoryById(Long id) {
+        Category category = getById(id);
+        CategoryVo categoryVo = BeanCopyUtils.copyBean(category, CategoryVo.class);
+        return ResponseResult.okResult(categoryVo);
+    }
+
+    @Override
+    public ResponseResult updateCategory(CategoryDto dto) {
+        if (!StringUtils.hasText(dto.getName())) {
+            throw new SystemException(AppHttpCodeEnum.NAME_NOT_NULL);
+        }
+        // 名称已存在
+        if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_EXIST);
+        }
+        Category category = BeanCopyUtils.copyBean(dto, Category.class);
+        updateById(category);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult deleteCategory(Long id) {
+        removeById(id);
         return ResponseResult.okResult();
     }
 }
