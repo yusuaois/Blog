@@ -20,6 +20,8 @@ public enum AppHttpCodeEnum {
     EMAIL_NOT_NULL(511, "邮箱不能为空"),
     NICKNAME_EXIST(512, "昵称已存在"),
     TAG_NAME_NOT_NULL(513, "标签名不能为空"),
+    //不能删除当前操作用户
+    CAN_NOT_DELETE_YOURSELF(514, "不能删除当前操作用户"),
     ;
 
     int code;

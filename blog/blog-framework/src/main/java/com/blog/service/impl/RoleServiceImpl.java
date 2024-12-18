@@ -52,7 +52,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     }
 
     @Override
-    public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status) {
+    public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status, String flag) {
         // 需要有角色列表分页查询的功能。
         // ​ 要求能够针对角色名称进行模糊查询。
         // ​ 要求能够针对状态进行查询。
@@ -63,15 +63,26 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         // 当输入角色名称时，根据角色名称查询
         queryWrapper.like(StringUtils.hasText(roleName), SysRole::getRoleName, roleName);
         // 当输入状态时，根据状态查询
-        queryWrapper.eq(StringUtils.hasText(status), SysRole::getStatus, status);
+        if (flag == null)
+            queryWrapper.eq(StringUtils.hasText(status), SysRole::getStatus, status);
+        else
+            queryWrapper.eq(SysRole::getStatus, 0);
         queryWrapper.orderByAsc(SysRole::getRoleSort);
         // 分页查询
-        Page<SysRole> page = new Page<>(pageNum, pageSize);
+        PageVo pageVo = null;
+        if(flag==null){
+            Page<SysRole> page = new Page<>(pageNum, pageSize);
         page(page, queryWrapper);
         List<RoleVo> roles = page.getRecords().stream().map(role -> BeanCopyUtils.copyBean(role, RoleVo.class))
                 .collect(Collectors.toList());
         // 封装返回
-        PageVo pageVo = new PageVo(roles, page.getTotal());
+        pageVo = new PageVo(roles, page.getTotal());
+        }
+        else{
+            List<SysRole> roleList = list(queryWrapper);
+            return ResponseResult.okResult(roleList);
+        }
+        
         return ResponseResult.okResult(pageVo);
 
     }
@@ -141,8 +152,13 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     }
 
     @Override
-    public ResponseResult deleteRole(Long id){
+    public ResponseResult deleteRole(Long id) {
         removeById(id);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult listAllRole() {
+        return listRole(null, null, null, null, "1");
     }
 }

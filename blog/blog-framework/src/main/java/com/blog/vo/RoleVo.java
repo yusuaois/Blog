@@ -1,5 +1,7 @@
 package com.blog.vo;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,5 @@ public class RoleVo {
     private Integer roleSort;
     private String status;
     private String remark;
+    private LocalDateTime createTime;
 }

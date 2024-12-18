@@ -36,7 +36,7 @@ public class RoleController {
 
     @GetMapping("/list")
     public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status) {
-        return roleService.listRole(pageNum, pageSize, roleName, status);
+        return roleService.listRole(pageNum, pageSize, roleName, status,null);
     }
 
     @RequestMapping("/changeStatus")//前端的格式为{roleId: "11", status: "0"},后端的格式为{id: 11, status: "0"}
@@ -62,6 +62,11 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseResult deleteRole(@PathVariable Long id) {
         return roleService.deleteRole(id);
+    }
+
+    @GetMapping("/listAllRole")
+    public ResponseResult listAllRole() {
+        return roleService.listAllRole();
     }
 
 }

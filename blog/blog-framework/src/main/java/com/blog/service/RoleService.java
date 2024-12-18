@@ -19,7 +19,7 @@ public interface RoleService extends IService<SysRole> {
 
     List<String> selectRoleKeyByUserId(Long id);
 
-    ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status);
+    ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status, String flag);
 
     ResponseResult changeStatus(SysRole role);
 
@@ -30,5 +30,7 @@ public interface RoleService extends IService<SysRole> {
     ResponseResult updateRole(RoleDto role);
 
     ResponseResult deleteRole(Long id);
+
+    ResponseResult listAllRole();
 
 }
