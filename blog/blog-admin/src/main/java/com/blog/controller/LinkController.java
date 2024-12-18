@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +51,8 @@ public class LinkController {
         return linkService.updateLink(dto);
     }
     
-    
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteLink(@PathVariable Long id) {
+        return linkService.deleteLink(id);
+    }
 }
