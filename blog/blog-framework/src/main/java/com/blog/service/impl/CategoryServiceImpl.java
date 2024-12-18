@@ -71,7 +71,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult addCategory(CategoryDto dto) {
         if (!StringUtils.hasText(dto.getName())) {
-            throw new SystemException(AppHttpCodeEnum.NAME_NOT_NULL);
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_NOT_NULL);
         }
         // 名称已存在
         if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {
@@ -92,7 +92,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult updateCategory(CategoryDto dto) {
         if (!StringUtils.hasText(dto.getName())) {
-            throw new SystemException(AppHttpCodeEnum.NAME_NOT_NULL);
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_NOT_NULL);
         }
         // 名称已存在
         if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {

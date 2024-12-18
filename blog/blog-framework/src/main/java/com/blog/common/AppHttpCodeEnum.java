@@ -22,8 +22,10 @@ public enum AppHttpCodeEnum {
     TAG_NAME_NOT_NULL(513, "标签名不能为空"),
     //不能删除当前操作用户
     CAN_NOT_DELETE_YOURSELF(514, "不能删除当前操作用户"), 
-    NAME_NOT_NULL(515, "分类名不能为空"), 
-    CATEGORY_NAME_EXIST(516, "分类名已存在"),
+    CATEGORY_NAME_NOT_NULL(515, "分类名不能为空"), 
+    CATEGORY_NAME_EXIST(516, "分类名已存在"), 
+    LINK_NAME_NOT_NULL(517, "友链名不能为空"),
+    LINK_NAME_EXIST(518, "友链名已存在"),
     ;
 
     int code;

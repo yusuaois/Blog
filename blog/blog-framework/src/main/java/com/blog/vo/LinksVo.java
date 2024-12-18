@@ -8,4 +8,5 @@ public class LinksVo {
     private String logo;
     private String description;
     private String address;
+    private String status;
 }

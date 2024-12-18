@@ -2,6 +2,7 @@ package com.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.common.ResponseResult;
+import com.blog.dto.LinkDto;
 import com.blog.entity.Link;
 
 /**
@@ -15,5 +16,13 @@ import com.blog.entity.Link;
 public interface LinkService extends IService<Link> {
 
     public ResponseResult getAllLink();
+
+    public ResponseResult listLink(Integer pageNum, Integer pageSize, String name, String status);
+
+    public ResponseResult addLink(LinkDto dto);
+
+    public ResponseResult selectLinkById(Long id);
+
+    public ResponseResult updateLink(LinkDto dto);
 
 }
