@@ -2,27 +2,33 @@ package com.blog.service.impl;
 
 import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddUserDto;
+import com.blog.dto.UserDto;
+import com.blog.entity.SysRole;
 import com.blog.entity.SysUserRole;
 import com.blog.entity.User;
 import com.blog.exception.SystemException;
 import com.blog.mapper.SysUserMapper;
+import com.blog.service.RoleService;
 import com.blog.service.SysUserRoleService;
 import com.blog.service.UserService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.vo.PageVo;
 import com.blog.vo.UserInfoVo;
+import com.blog.vo.AdminDetailVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -39,6 +45,20 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
     private PasswordEncoder passwordEncoder;
     @Autowired
     private SysUserRoleService userRoleService;
+    @Autowired
+    private RoleService roleService;
+
+    private boolean UserNameExist(String userName) {
+        return lambdaQuery().eq(User::getUserName, userName).count() > 0;
+    }
+
+    private boolean EmailExist(String email) {
+        return lambdaQuery().eq(User::getEmail, email).count() > 0;
+    }
+
+    private boolean NicknameExist(String nickName) {
+        return lambdaQuery().eq(User::getNickName, nickName).count() > 0;
+    }
 
     @Override
     public ResponseResult userInfo() {
@@ -100,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
     }
 
     @Override
-    public ResponseResult addUser(AddUserDto user) {
+    public ResponseResult addUser(UserDto user) {
         User userInfo = BeanCopyUtils.copyBean(user, User.class);
         register(userInfo);
         SysUserRole userRole = new SysUserRole(userInfo.getId(), null);
@@ -111,22 +131,40 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         return ResponseResult.okResult();
     }
 
-    private boolean UserNameExist(String userName) {
-        return lambdaQuery().eq(User::getUserName, userName).count() > 0;
-    }
-
-    private boolean EmailExist(String email) {
-        return lambdaQuery().eq(User::getEmail, email).count() > 0;
-    }
-
-    private boolean NicknameExist(String nickName) {
-        return lambdaQuery().eq(User::getNickName, nickName).count() > 0;
-    }
-
+    @Override
     public ResponseResult deleteUser(Long id) {
-        //不能删除当前操作用户
-        if(SecurityUtils.getUserId().equals(id))throw new SystemException(AppHttpCodeEnum.CAN_NOT_DELETE_YOURSELF);
-        removeById(id); 
+        // 不能删除当前操作用户
+        if (SecurityUtils.getUserId().equals(id))
+            throw new SystemException(AppHttpCodeEnum.CAN_NOT_DELETE_YOURSELF);
+        removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult userDetail(Long id) {
+        // roleIds：用户所关联的角色id列表
+        List<Long> roleIds = userRoleService.list(new QueryWrapper<SysUserRole>().eq("user_id", id)).stream()
+                .map(SysUserRole::getRoleId).collect(Collectors.toList());
+        // roles：所有角色的列表
+        List<SysRole> roles = (List<SysRole>) roleService.listAllRole().getData();
+        // user：用户信息
+        User user = getById(id);
+        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
+        AdminDetailVo vo = new AdminDetailVo(roleIds, roles, userInfoVo);
+        return ResponseResult.okResult(vo);
+    }
+
+    @Override
+    public ResponseResult updateUser(UserDto user) {
+        // 更新用户信息
+        updateById(BeanCopyUtils.copyBean(user, User.class));
+        // 更新用户角色信息
+        userRoleService.removeById(user.getId());// 先删除用户角色信息
+        SysUserRole userRole = new SysUserRole(user.getId(), null);
+        for (Long role : user.getRoleIds()) {// 再添加用户角色信息
+            userRole.setRoleId(role);
+            userRoleService.save(userRole);
+        }
         return ResponseResult.okResult();
     }
 

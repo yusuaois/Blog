@@ -1,7 +1,7 @@
 package com.blog.service;
 
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddUserDto;
+import com.blog.dto.UserDto;
 import com.blog.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -23,10 +23,12 @@ public interface UserService extends IService<User> {
 
     ResponseResult userList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
 
-    ResponseResult addUser(AddUserDto user);
+    ResponseResult addUser(UserDto user);
 
     ResponseResult deleteUser(Long id);
 
-    
+    ResponseResult userDetail(Long id);
+
+    ResponseResult updateUser(UserDto user);
 
 }

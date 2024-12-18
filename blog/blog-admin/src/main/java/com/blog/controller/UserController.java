@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddUserDto;
+import com.blog.dto.UserDto;
 import com.blog.service.UserService;
 
 import org.apache.ibatis.annotations.Delete;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @RequestMapping()
-    public ResponseResult addUser(@RequestBody AddUserDto user) {
+    public ResponseResult addUser(@RequestBody UserDto user) {
         return userService.addUser(user);
     }
 
@@ -49,6 +50,14 @@ public class UserController {
         return userService.deleteUser(id);
     }
     
-    
+    @GetMapping("/{id}")
+    public ResponseResult userDetail(@PathVariable Long id) {
+        return userService.userDetail(id);
+    }
+
+    @PutMapping()
+    public ResponseResult updateUser(@RequestBody UserDto user) {
+        return userService.updateUser(user);
+    }
     
 }

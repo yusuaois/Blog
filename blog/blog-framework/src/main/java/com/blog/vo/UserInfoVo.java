@@ -29,5 +29,7 @@ public class UserInfoVo {
 
     private String email;
 
+    private String status;
 
+    private String phonenumber;
 }
