@@ -12,9 +12,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -50,7 +52,14 @@ public class RoleController {
         return roleService.addRole(role);
     }
     
+    @GetMapping("/{id}")
+    public ResponseResult roleInfo(@PathVariable Long id) {
+        return roleService.roleInfo(id);
+    }
     
-    
+    @PutMapping()
+    public ResponseResult updateRole(@RequestBody AddRoleDto role) {
+        return roleService.updateRole(role);
+    }
 
 }

@@ -7,12 +7,16 @@ import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.SysMenu;
+import com.blog.entity.SysRoleMenu;
 import com.blog.mapper.SysMenuMapper;
 import com.blog.service.MenuService;
+import com.blog.service.SysRoleMenuService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.vo.MenuTreeSelectVo;
 import com.blog.vo.MenuVo;
+import com.blog.vo.RoleUpdateVo;
+import com.blog.vo.RoleVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements MenuService {
     @Autowired
     private SysMenuMapper menuMapper;
+
+    @Autowired
+    private SysRoleMenuService roleMenuService;
 
     @Override
     public List<String> selectPermsByUserId(Long id) {
@@ -167,4 +174,21 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
         return vo;
     }
     
+    @Override
+    public ResponseResult roleMenuTreeselect(Long id){
+        //全部菜单
+        List<SysMenu> menu = list(new QueryWrapper<SysMenu>().orderByAsc("order_num"));
+        List<SysMenu> menuTree = builderMenuTree(menu, 0L);
+        List<MenuTreeSelectVo> menus = transToVoChild(menuTree);
+
+        //按照id查询菜单
+        LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleMenu::getRoleId, id);
+        List<SysRoleMenu> tmp = roleMenuService.list(wrapper);
+        List<Long> checkedKeys = tmp.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
+
+        //封装为VO
+        RoleUpdateVo vo = new RoleUpdateVo(menus,checkedKeys);
+        return ResponseResult.okResult(vo);
+    }
 }

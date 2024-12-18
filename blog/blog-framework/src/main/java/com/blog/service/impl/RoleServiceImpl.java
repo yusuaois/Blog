@@ -1,18 +1,16 @@
 package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
 import com.blog.dto.AddRoleDto;
 import com.blog.entity.SysRole;
 import com.blog.entity.SysRoleMenu;
-import com.blog.entity.SysUserRole;
 import com.blog.mapper.SysRoleMapper;
-import com.blog.mapper.SysRoleMenuMapper;
 import com.blog.service.RoleService;
 import com.blog.service.SysRoleMenuService;
-import com.blog.service.SysUserRoleService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.vo.PageVo;
 import com.blog.vo.RoleVo;
@@ -24,6 +22,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -58,12 +57,11 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         // ​ 要求能够针对状态进行查询。
         // ​ 要求按照role_sort进行升序排列。
         // 封装为vo
-        
 
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
-        //当输入角色名称时，根据角色名称查询
+        // 当输入角色名称时，根据角色名称查询
         queryWrapper.like(StringUtils.hasText(roleName), SysRole::getRoleName, roleName);
-        //当输入状态时，根据状态查询
+        // 当输入状态时，根据状态查询
         queryWrapper.eq(StringUtils.hasText(status), SysRole::getStatus, status);
         queryWrapper.orderByAsc(SysRole::getRoleSort);
         // 分页查询
@@ -103,12 +101,38 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         SysRole sysRole = BeanCopyUtils.copyBean(role, SysRole.class);
         save(sysRole);
 
-        // 保存权限和角色关系 
+        // 保存权限和角色关系
         SysRoleMenu roleMenu = BeanCopyUtils.copyBean(role, SysRoleMenu.class);
         roleMenu.setRoleId(sysRole.getId());
-        //通过流将role中的menuIds取出
+        // 通过流将role中的menuIds取出
         List<Long> menuIds = role.getMenuIds().stream().map(Long::valueOf).collect(Collectors.toList());
-        for(Long menuId : menuIds){
+        for (Long menuId : menuIds) {
+            roleMenu.setMenuId(menuId);
+            roleMenuService.save(roleMenu);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult roleInfo(Long id) {
+        SysRole roleVo = getById(id);
+        RoleVo vo = BeanCopyUtils.copyBean(roleVo, RoleVo.class);
+        return ResponseResult.okResult(vo);
+    }
+
+    @Override
+    public ResponseResult updateRole(@RequestBody AddRoleDto role) {
+        // 更新角色信息
+        SysRole sysRole = BeanCopyUtils.copyBean(role, SysRole.class);
+        updateById(sysRole);
+        // 更新角色和菜单关系
+        SysRoleMenu roleMenu = new SysRoleMenu(sysRole.getId(), null);
+        // 通过流将role中的menuIds取出
+        List<Long> menuIds = role.getMenuIds().stream().map(Long::valueOf).collect(Collectors.toList());
+        // 删除原来的角色和菜单关系
+        roleMenuService.removeById(sysRole.getId());
+        // 储存新的角色和菜单关系
+        for (Long menuId : menuIds) {
             roleMenu.setMenuId(menuId);
             roleMenuService.save(roleMenu);
         }

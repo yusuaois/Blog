@@ -25,4 +25,8 @@ public interface RoleService extends IService<SysRole> {
 
     ResponseResult addRole(AddRoleDto role);
 
+    ResponseResult roleInfo(Long id);
+
+    ResponseResult updateRole(AddRoleDto role);
+
 }

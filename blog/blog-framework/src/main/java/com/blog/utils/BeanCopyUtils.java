@@ -29,12 +29,12 @@ public class BeanCopyUtils {
         return sourceList.stream().map(e->copyBean(e,target)).collect(Collectors.toList());
     }
 
-    public static void main(String[] args) {
-        Article article = new Article();
-        article.setId(1L);
-        article.setTitle("Java");
+    // public static void main(String[] args) {
+    //     Article article = new Article();
+    //     article.setId(1L);
+    //     article.setTitle("Java");
 
-        HotArticleVo articleVo = copyBean(article, HotArticleVo.class);
-        System.out.println(articleVo);
-    }
+    //     HotArticleVo articleVo = copyBean(article, HotArticleVo.class);
+    //     System.out.println(articleVo);
+    // }
 }
