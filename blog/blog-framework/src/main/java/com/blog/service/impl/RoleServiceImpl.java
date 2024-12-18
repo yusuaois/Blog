@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddRoleDto;
+import com.blog.dto.RoleDto;
 import com.blog.entity.SysRole;
 import com.blog.entity.SysRoleMenu;
 import com.blog.mapper.SysRoleMapper;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -86,7 +87,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     }
 
     @Override
-    public ResponseResult addRole(AddRoleDto role) {
+    public ResponseResult addRole(RoleDto role) {
         // 角色名已存在 抛出异常
         if (StringUtils.hasText(role.getRoleName())) {
             LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
@@ -121,7 +122,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     }
 
     @Override
-    public ResponseResult updateRole(@RequestBody AddRoleDto role) {
+    public ResponseResult updateRole(RoleDto role) {
         // 更新角色信息
         SysRole sysRole = BeanCopyUtils.copyBean(role, SysRole.class);
         updateById(sysRole);
@@ -136,6 +137,12 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
             roleMenu.setMenuId(menuId);
             roleMenuService.save(roleMenu);
         }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult deleteRole(Long id){
+        removeById(id);
         return ResponseResult.okResult();
     }
 }

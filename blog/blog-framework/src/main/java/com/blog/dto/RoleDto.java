@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddRoleDto {
+public class RoleDto {
     private Long id;
     private String roleName;
     private String roleKey;

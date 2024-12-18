@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddRoleDto;
+import com.blog.dto.RoleDto;
 import com.blog.entity.SysRole;
 
 /**
@@ -23,10 +23,12 @@ public interface RoleService extends IService<SysRole> {
 
     ResponseResult changeStatus(SysRole role);
 
-    ResponseResult addRole(AddRoleDto role);
+    ResponseResult addRole(RoleDto role);
 
     ResponseResult roleInfo(Long id);
 
-    ResponseResult updateRole(AddRoleDto role);
+    ResponseResult updateRole(RoleDto role);
+
+    ResponseResult deleteRole(Long id);
 
 }

@@ -4,17 +4,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.common.ResponseResult;
-import com.blog.dto.AddRoleDto;
+import com.blog.dto.RoleDto;
 import com.blog.entity.SysRole;
 import com.blog.service.RoleService;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +45,7 @@ public class RoleController {
     }
 
     @PostMapping()
-    public ResponseResult addRole(@RequestBody AddRoleDto role) {
+    public ResponseResult addRole(@RequestBody RoleDto role) {
         return roleService.addRole(role);
     }
     
@@ -58,8 +55,13 @@ public class RoleController {
     }
     
     @PutMapping()
-    public ResponseResult updateRole(@RequestBody AddRoleDto role) {
+    public ResponseResult updateRole(@RequestBody RoleDto role) {
         return roleService.updateRole(role);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteRole(@PathVariable Long id) {
+        return roleService.deleteRole(id);
     }
 
 }
