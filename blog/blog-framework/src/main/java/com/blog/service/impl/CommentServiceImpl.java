@@ -49,7 +49,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 根评论 rootId为-1
         queryWrapper.eq(Comment::getRootId, -1);
 
-        //TODO 评论类型??? 
+        //评论类型
         queryWrapper.eq(Comment::getType, commentType);
         
         // 分页查询

@@ -108,7 +108,12 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-
+        <!--敏感词检测 sensitive-word-->
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>sensitive-word</artifactId>
+            <version>0.2.0</version>
+        </dependency>
     </dependencies>
 
 </project>

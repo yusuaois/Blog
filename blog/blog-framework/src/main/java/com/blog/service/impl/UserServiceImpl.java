@@ -13,6 +13,7 @@ import com.blog.service.SysUserRoleService;
 import com.blog.service.UserService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.PageVo;
 import com.blog.vo.UserInfoVo;
 import com.blog.vo.AdminDetailVo;
@@ -88,6 +89,18 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
             throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
         if (!StringUtils.hasText(user.getEmail()))
             throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
+
+        // 对用户名进行是否仅含有英文、数字判断
+        if (WordDetectUtils.containsOnlyEnglishAndNumber(user.getUserName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+
+        //对密码进行是否仅含有英文、数字与下划线判断
+        if (WordDetectUtils.containsOnlyEnglishAndNumberAndUnderline(user.getPassword()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+
+        // 对邮箱进行格式判断
+        if (!WordDetectUtils.isEmail(user.getEmail()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
         // 对数据进行重复判断
         if (UserNameExist(user.getUserName()))

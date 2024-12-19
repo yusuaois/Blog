@@ -6,7 +6,6 @@ import com.blog.entity.LoginUser;
 import com.blog.entity.User;
 import com.blog.mapper.SysUserMapper;
 import com.blog.service.SystemLoginService;
-import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.utils.redis.JwtUtil;
 
