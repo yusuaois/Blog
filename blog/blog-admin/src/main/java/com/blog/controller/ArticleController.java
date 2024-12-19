@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.common.ResponseResult;
 import com.blog.dto.AddArticleDto;
 import com.blog.service.ArticleService;
-import com.blog.service.MenuService;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -33,9 +31,6 @@ public class ArticleController {
     
     @Autowired
     private ArticleService articleService;
-
-    @Autowired
-    private MenuService menuService;
 
     @PostMapping
     public ResponseResult add(@RequestBody AddArticleDto article){

@@ -13,6 +13,8 @@ com\blog\mapper\ArticleMapper.class
 com\blog\service\BlogLoginService.class
 com\blog\config\WebConfig.class
 com\blog\service\impl\TagServiceImpl.class
+com\blog\vo\AdminDetailVo.class
+com\blog\dto\RoleDto.class
 com\blog\constants\SystemConstants.class
 com\blog\entity\Comment.class
 com\blog\vo\TagInfoVo.class
@@ -26,6 +28,7 @@ com\blog\service\impl\PermissionService.class
 com\blog\service\SystemLoginService.class
 com\blog\service\impl\CategoryServiceImpl.class
 com\blog\mapper\CommentMapper.class
+com\blog\service\SysUserRoleService.class
 com\blog\service\impl\ArticleServiceImpl.class
 com\blog\dto\TagListDto.class
 com\blog\service\SysRoleMenuService.class
@@ -51,7 +54,9 @@ com\blog\service\impl\RoleServiceImpl.class
 com\blog\service\UserService.class
 com\blog\service\CategoryService.class
 com\blog\config\redis\RedisConfig.class
+com\blog\dto\CategoryDto.class
 com\blog\utils\redis\WebUtils.class
+com\blog\vo\RoleUpdateVo.class
 com\blog\entity\Tag.class
 com\blog\vo\PageVo.class
 com\blog\common\CodeGenerator.class
@@ -60,6 +65,7 @@ com\blog\service\ArticleService.class
 com\blog\service\CommentService.class
 com\blog\entity\Link.class
 com\blog\service\impl\LinkServiceImpl.class
+com\blog\dto\UserDto.class
 com\blog\service\impl\MenuServiceImpl.class
 com\blog\service\UploadService.class
 com\blog\annotation\SystemLog.class
@@ -70,7 +76,6 @@ com\blog\service\impl\BlogLoginServiceImpl.class
 com\blog\mapper\SysRoleMapper.class
 com\blog\service\impl\UserDetailsServiceImpl.class
 com\blog\utils\redis\RedisCache.class
-com\blog\service\impl\notUsed\SysUserRoleServiceImpl.class
 com\blog\vo\CommentVo.class
 com\blog\utils\redis\JwtUtil.class
 com\blog\vo\UserInfoVo.class
@@ -78,14 +83,15 @@ com\blog\entity\ArticleTag.class
 com\blog\entity\SysRoleMenu.class
 com\blog\service\impl\UserServiceImpl.class
 com\blog\service\ArticleTagService.class
+com\blog\service\impl\SysUserRoleServiceImpl.class
 com\blog\service\RoleService.class
 com\blog\common\AppHttpCodeEnum.class
 com\blog\mapper\SysMenuMapper.class
 com\blog\exception\SystemException.class
-com\blog\service\notUsed\ISysUserRoleService.class
 com\blog\config\redis\FastJsonRedisSerializer.class
 com\blog\entity\SysRole.class
 com\blog\service\impl\ArticleTagServiceImpl.class
+com\blog\dto\LinkDto.class
 com\blog\vo\BlogUserLoginVo.class
 com\blog\entity\Article.class
 com\blog\utils\PathUtils.class
