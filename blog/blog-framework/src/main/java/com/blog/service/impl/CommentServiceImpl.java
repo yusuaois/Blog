@@ -15,6 +15,7 @@ import com.blog.service.CommentService;
 import com.blog.service.UserService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.CommentVo;
 import com.blog.vo.PageVo;
 
@@ -108,7 +109,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // }
         //内容不为空
         if((!StringUtils.hasText(comment.getContent())))throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
-        //TODO敏感词处理？
+        //敏感词检测
+        WordDetectUtils.checkSensitiveWord(comment.getContent());
         save(comment);
         return ResponseResult.okResult();
     }
