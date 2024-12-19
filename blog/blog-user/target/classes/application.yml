@@ -7,6 +7,9 @@ spring:
     username: root
     password: root
 
+  mvc:
+    pathmatch:
+        matching-strategy: ANT_PATH_MATCHER
   
   servlet:
     multipart:
@@ -29,32 +32,3 @@ oss:
   secretKey: pWIcsLbaGRs-ZhGpsup2l_0BFV-x8075kecXvTMI
   bucket: yusuaois-blog
 
-# knife4j:
-#   enable: true
-#   openapi:
-#     title: Knife4j官方文档
-#     description: "`我是测试`,**你知道吗**
-#     # aaa"
-#     email: xiaoymin@foxmail.com
-#     concat: 八一菜刀
-#     url: https://docs.xiaominfo.com
-#     version: v4.0
-#     license: Apache 2.0
-#     license-url: https://stackoverflow.com/
-#     terms-of-service-url: https://stackoverflow.com/
-#     group:
-#       test1:
-#         group-name: 分组名称
-#         api-rule: package
-#         api-rule-resources:
-#           - com.knife4j.demo.new3
-
-
-# springdoc:
-#   swagger-ui:
-#     # 修改Swagger UI路径
-#     path: /swagger-ui.html
-#     # 开启Swagger UI界面
-#     enabled: true
-# 请求路径匹配策略
-#spring.mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER

@@ -61,6 +61,7 @@ public class SecurityConfig {
                         // 允许直接访问授权登录接口
                         .antMatchers("/user/login").permitAll()
                         .antMatchers("/upload").permitAll()
+                        .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**").permitAll() // 允许匿名访问Swagger资源
                         // 允许任意请求被已登录用户访问，不检查Authority
                         // 除上面外的所有请求都不需要登录
                         .anyRequest().authenticated())
