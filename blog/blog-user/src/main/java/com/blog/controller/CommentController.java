@@ -2,6 +2,7 @@ package com.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,6 @@ import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Comment;
 import com.blog.service.CommentService;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -30,19 +30,19 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping("/commentList") 
+    @GetMapping("/commentList") 
     @SystemLog(businessName = "获取评论列表")
     public ResponseResult commentList(Long articleId,Integer pageNum,Integer pageSize){
         return commentService.commentList(SystemConstants.ARTICLE_COMMENT,articleId,pageNum,pageSize);
     }
 
-    @GetMapping
-    @SystemLog(businessName = "获取评论列表")
+    @PostMapping
+    @SystemLog(businessName = "新增评论")
     public ResponseResult addComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
     }
 
-    @RequestMapping("/linkCommentList")
+    @GetMapping("/linkCommentList")
     @SystemLog(businessName = "获取友链评论列表")
     public ResponseResult linkCommentList(@RequestParam Integer pageNum, Integer pageSize) {
         return commentService.commentList(SystemConstants.LINK_COMMENT,null,pageNum, pageSize);

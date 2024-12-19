@@ -21,7 +21,6 @@ import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.dto.CategoryDto;
 import com.blog.entity.Category;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,7 +67,7 @@ public class CategoryController {
         }
     }
 
-    @RequestMapping("/listAllCategory")
+    @GetMapping("/listAllCategory")
     @SystemLog(businessName = "获取分类列表")
     public ResponseResult listAllCategory() {
         return categoryService.getCategoryList();

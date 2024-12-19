@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping("/hotArticleList")
+    @GetMapping("/hotArticleList")
     @SystemLog(businessName = "获取热门文章列表")
     public ResponseResult hotArticleList(){
         
@@ -34,13 +35,13 @@ public class ArticleController {
         return result;
     }
 
-    @RequestMapping("/articleList")
+    @GetMapping("/articleList")
     @SystemLog(businessName = "获取文章列表")
     public ResponseResult articleList(Integer pageNum, Integer pageSize,Long categoryId){
         return  articleService.articleList(pageNum, pageSize, categoryId);
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     @SystemLog(businessName = "获取文章详情")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
         return articleService.getArticleDetail(id);

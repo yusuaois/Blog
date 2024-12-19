@@ -39,7 +39,7 @@ public class RoleController {
         return roleService.listRole(pageNum, pageSize, roleName, status,null);
     }
 
-    @RequestMapping("/changeStatus")//前端的格式为{roleId: "11", status: "0"},后端的格式为{id: 11, status: "0"}
+    @PutMapping("/changeStatus")//前端的格式为{roleId: "11", status: "0"},后端的格式为{id: 11, status: "0"}
     public ResponseResult changeStatus(@RequestBody SysRole role) {
         return roleService.changeStatus(role);
     }

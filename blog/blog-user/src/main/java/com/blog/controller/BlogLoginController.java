@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class BlogLoginController {
     @Autowired
     private BlogLoginService blogLoginService;
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     @SystemLog(businessName = "用户登录")
     public ResponseResult login(@RequestBody User User){
         if(!StringUtils.hasText(User.getUserName())){
@@ -38,7 +39,7 @@ public class BlogLoginController {
         return blogLoginService.login(User);
     }
 
-    @RequestMapping("/logout")
+    @PostMapping("/logout")
     @SystemLog(businessName = "用户登出")
     public ResponseResult logout(){
         return blogLoginService.logout();

@@ -30,7 +30,7 @@ public class SwaggerConfig {
     {
         Contact contact = new Contact("博客项目", "https://github.com/yusuaois/Blog", "yusuaois@outlook.com");
         return new ApiInfoBuilder()
-                .title("博客项目")
+                .title("博客前台")
                 .description("## 客户端功能\n" +
                         "\n" +
                         "### 文章浏览\n" +

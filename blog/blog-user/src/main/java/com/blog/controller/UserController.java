@@ -1,5 +1,7 @@
 package com.blog.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping("/userInfo")
+    @GetMapping("/userInfo")
     @SystemLog(businessName = "获取用户信息")
     public ResponseResult userInfo() {
         return userService.userInfo();
@@ -41,7 +43,7 @@ public class UserController {
         return userService.updateUserInfo(user);
     }
 
-    @RequestMapping("/register")
+    @PostMapping("/register")
     @SystemLog(businessName = "用户注册")
     public ResponseResult register(@RequestBody User user) {
         return userService.register(user);

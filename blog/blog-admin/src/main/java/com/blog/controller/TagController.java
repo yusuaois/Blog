@@ -39,7 +39,7 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ResponseResult<PageVo> list(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
         return tagService.pageTagList(pageNum, pageSize, tagListDto);
     }

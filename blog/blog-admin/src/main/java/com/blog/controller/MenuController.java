@@ -13,6 +13,7 @@ import com.blog.service.MenuService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,12 +25,12 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ResponseResult listAllMenu(String menuName, String status) {
         return menuService.listAllMenu(menuName, status);
     }
 
-    @RequestMapping()
+    @PostMapping()
     public ResponseResult<SysMenu> addNewMenu(@RequestBody SysMenu menu) {
         return menuService.addNewMenu(menu);
     }

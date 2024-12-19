@@ -1,8 +1,8 @@
 package com.blog.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class SystemLoginController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping("/user/login")
+    @PostMapping("/user/login")
     @SystemLog(businessName = "后台登录")
     public ResponseResult login(@RequestBody User User) {
         if (!StringUtils.hasText(User.getUserName())) {
@@ -55,7 +55,7 @@ public class SystemLoginController {
         return systemLoginService.login(User);
     }
 
-    @RequestMapping("getInfo")
+    @GetMapping("getInfo")
     public ResponseResult<AdminUserInfoVo> getInfo() {
         // 获取当前登录用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -72,7 +72,7 @@ public class SystemLoginController {
         return ResponseResult.okResult(vo);
     }
 
-    @RequestMapping("getRouters")
+    @GetMapping("getRouters")
     public ResponseResult<RoutersVo> getRouters() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         // 查询menu 结果是tree的形式（层级）
@@ -81,7 +81,7 @@ public class SystemLoginController {
         return ResponseResult.okResult(new RoutersVo(menus));
     }
 
-    @RequestMapping("/user/logout")
+    @PostMapping("/user/logout")
     public ResponseResult<PageVo> logout() {
         return systemLoginService.logout();
     }
