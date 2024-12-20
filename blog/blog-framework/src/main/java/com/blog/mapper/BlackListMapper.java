@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 @Mapper
-public interface BlackListMapper extends BaseMapper<String>{
+public interface BlackListMapper extends BaseMapper{
     public List<String> blackList();
 }

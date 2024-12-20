@@ -1,6 +1,5 @@
 package com.blog.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -36,31 +35,34 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
-   @Autowired
-   private UserService userService;
-    
-    @Override//TODO 查询第二页时报500
-    public ResponseResult commentList(String commentType,Long articleId, Integer pageNum, Integer pageSize) {
+    @Autowired
+    private UserService userService;
+
+    @Override // TODO 查询第二页时报500
+    public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
         // 查询对应文章的根评论
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
 
         // 对article进行判断
-        queryWrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType),Comment::getArticleId, articleId);
+        queryWrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType), Comment::getArticleId, articleId);
 
         // 根评论 rootId为-1
         queryWrapper.eq(Comment::getRootId, -1);
 
-        //评论类型
+        //过滤匿名评论 createBy字段不为-1
+        queryWrapper.ne(Comment::getCreateBy, -1);
+
+        // 评论类型
         queryWrapper.eq(Comment::getType, commentType);
-        
+
         // 分页查询
         Page<Comment> page = new Page<>(pageNum, pageSize);
         page(page, queryWrapper);
 
         List<CommentVo> commentVolist = toCommentVoList(page.getRecords());
-        
-        //查询所有根评论对应的子评论的集合
-        for(CommentVo commentVo : commentVolist){
+
+        // 查询所有根评论对应的子评论的集合
+        for (CommentVo commentVo : commentVolist) {
             List<CommentVo> childrComments = getChildren(commentVo.getId());
             commentVo.setChildren(childrComments);
         }
@@ -68,48 +70,49 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return ResponseResult.okResult(new PageVo(commentVolist, page.getTotal()));
     }
 
-    //@Param id 根评论id
-    //@return
-    //根据评论的id查找子评论
+    // @Param id 根评论id
+    // @return
+    // 根据评论的id查找子评论
     private List<CommentVo> getChildren(Long id) {
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getRootId, id);
 
         queryWrapper.orderByAsc(Comment::getCreateTime);
-        
+
         List<Comment> comments = list(queryWrapper);
-        List<CommentVo> commentVos =  toCommentVoList(comments);
+        List<CommentVo> commentVos = toCommentVoList(comments);
         return commentVos;
     }
 
     private List<CommentVo> toCommentVoList(List<Comment> comments) {
         List<CommentVo> commentVos = BeanCopyUtils.copyBeanList(comments, CommentVo.class);
-        //遍历Vo集合
+        // 遍历Vo集合
         for (CommentVo commentVo : commentVos) {
             String nickName = userService.getById(commentVo.getCreateBy()).getNickName();
             commentVo.setUsername(nickName);
             // 根据创建人id查询创建人信息
-            //如果toCommentId不为-1才进行查询
+            // 如果toCommentId不为-1才进行查询
             if (commentVo.getToCommentId() != -1) {
                 String toCommentUserName = userService.getById(commentVo.getToCommentUserId()).getNickName();
                 commentVo.setToCommentUserName(toCommentUserName);
             }
         }
-        
-        //通过createBy查询用户名称并赋值
-        //通过toCommentUserId查询用户名称并赋值
+
+        // 通过createBy查询用户名称并赋值
+        // 通过toCommentUserId查询用户名称并赋值
         return commentVos;
     }
 
     @Override
-    public ResponseResult addComment(@RequestBody Comment comment){
-        //安全性检测 根据上下文判断当前是否登录
+    public ResponseResult addComment(@RequestBody Comment comment) {
+        // 安全性检测 根据上下文判断当前是否登录
         // if (SecurityUtils.getLoginUser() == null) {
-        //     throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
+        // throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
         // }
-        //内容不为空
-        if((!StringUtils.hasText(comment.getContent())))throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
-        //敏感词检测
+        // 内容不为空
+        if ((!StringUtils.hasText(comment.getContent())))
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        // 敏感词检测
         WordDetectUtils.checkSensitiveWord(comment.getContent());
         save(comment);
         return ResponseResult.okResult();
