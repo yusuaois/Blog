@@ -13,8 +13,10 @@ public class WhiteList implements IWordAllow {
     @Override
     public List<String> allow() {
         List<String> list = new ArrayList<>();
-        //list.add("五星红旗");
-        //list.add("天安门");
+        // TODO 在数据库里查询拿出敏感词list
+        // List<String> list = mapper.selectList();
+        // list.add("五星红旗");
+        // list.add("天安门");
         return list;
     }
 

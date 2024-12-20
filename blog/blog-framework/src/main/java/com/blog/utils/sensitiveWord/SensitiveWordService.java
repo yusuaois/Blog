@@ -1,7 +1,6 @@
 package com.blog.utils.sensitiveWord;
 
 import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
-import com.blog.config.SpringSensitiveWordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,7 @@ public class SensitiveWordService {
      */
     public void refresh() {
         // 每次数据库的信息发生变化之后，首先调用更新数据库敏感词库的方法，然后调用这个方法。
+        
         sensitiveWordBs.init();
     }
 
