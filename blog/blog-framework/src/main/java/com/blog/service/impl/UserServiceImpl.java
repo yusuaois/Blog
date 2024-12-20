@@ -74,6 +74,12 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
 
     @Override
     public ResponseResult updateUserInfo(User user) {
+        // 为空
+        if (StringUtils.hasText(user.getNickName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(user.getNickName());
+        // 更新用户信息
         updateById(user);
         return ResponseResult.okResult();
     }
@@ -94,13 +100,16 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         if (WordDetectUtils.containsOnlyEnglishAndNumber(user.getUserName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
-        //对密码进行是否仅含有英文、数字与下划线判断
+        // 对密码进行是否仅含有英文、数字与下划线判断
         if (WordDetectUtils.containsOnlyEnglishAndNumberAndUnderline(user.getPassword()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
         // 对邮箱进行格式判断
         if (!WordDetectUtils.isEmail(user.getEmail()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(user.getNickName());
 
         // 对数据进行重复判断
         if (UserNameExist(user.getUserName()))
@@ -169,6 +178,11 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
 
     @Override
     public ResponseResult updateUser(UserDto user) {
+        // 为空
+        if (StringUtils.hasText(user.getNickName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(user.getNickName());
         // 更新用户信息
         updateById(BeanCopyUtils.copyBean(user, User.class));
         // 更新用户角色信息

@@ -12,6 +12,7 @@ import com.blog.service.ArticleService;
 import com.blog.service.ArticleTagService;
 import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.utils.redis.RedisCache;
 import com.blog.vo.ArticleDetailVo;
 import com.blog.vo.ArticleListVo;
@@ -149,6 +150,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     @Transactional
     public ResponseResult add(AddArticleDto articleDto) {
+        // 检测内容空白
+        if (!StringUtils.hasText(articleDto.getContent())) {
+            throw new RuntimeException("内容不能为空");
+        }
+        if (!StringUtils.hasText(articleDto.getTitle())) {
+            throw new RuntimeException("标题不能为空");
+        }
+        if (!StringUtils.hasText(articleDto.getSummary())) {
+            throw new RuntimeException("摘要不能为空");
+        }
+
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(articleDto.getTitle());
+        WordDetectUtils.checkSensitiveWord(articleDto.getContent());
+        WordDetectUtils.checkSensitiveWord(articleDto.getSummary());
+
         // 添加 博客
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         save(article);
@@ -183,7 +200,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult updateArticleById(AddArticleDto articleDto){
+    public ResponseResult updateArticleById(AddArticleDto articleDto) {
+        // 检测内容空白
+        if (!StringUtils.hasText(articleDto.getContent())) {
+            throw new RuntimeException("内容不能为空");
+        }
+        if (!StringUtils.hasText(articleDto.getTitle())) {
+            throw new RuntimeException("标题不能为空");
+        }
+        if (!StringUtils.hasText(articleDto.getSummary())) {
+            throw new RuntimeException("摘要不能为空");
+        }
+
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(articleDto.getTitle());
+        WordDetectUtils.checkSensitiveWord(articleDto.getContent());
+        WordDetectUtils.checkSensitiveWord(articleDto.getSummary());
+
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getId, article.getId());
@@ -192,7 +225,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult deleteArticleById(Long id){
+    public ResponseResult deleteArticleById(Long id) {
         removeById(id);
         return ResponseResult.okResult();
     }

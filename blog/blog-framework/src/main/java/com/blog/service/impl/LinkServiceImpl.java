@@ -13,6 +13,7 @@ import com.blog.exception.SystemException;
 import com.blog.mapper.LinkMapper;
 import com.blog.service.LinkService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.LinksVo;
 import com.blog.vo.PageVo;
 
@@ -59,6 +60,10 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     public ResponseResult addLink(LinkDto dto) {
         if (!StringUtils.hasText(dto.getName()))
             throw new SystemException(AppHttpCodeEnum.LINK_NAME_NOT_NULL);
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(dto.getName());
+        WordDetectUtils.checkSensitiveWord(dto.getDescription());
+
         if (count(new LambdaQueryWrapper<Link>().eq(Link::getName, dto.getName())) > 0)
             throw new SystemException(AppHttpCodeEnum.LINK_NAME_EXIST);
         Link link = BeanCopyUtils.copyBean(dto, Link.class);
@@ -77,6 +82,9 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     public ResponseResult updateLink(LinkDto dto) {
         if (!StringUtils.hasText(dto.getName()))
             throw new SystemException(AppHttpCodeEnum.LINK_NAME_NOT_NULL);
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(dto.getName());
+        WordDetectUtils.checkSensitiveWord(dto.getDescription());
         if (count(new LambdaQueryWrapper<Link>().eq(Link::getName, dto.getName())) > 0)
             throw new SystemException(AppHttpCodeEnum.LINK_NAME_EXIST);
         Link link = BeanCopyUtils.copyBean(dto, Link.class);

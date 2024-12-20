@@ -4,14 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.dto.RoleDto;
 import com.blog.entity.SysRole;
 import com.blog.entity.SysRoleMenu;
+import com.blog.exception.SystemException;
 import com.blog.mapper.SysRoleMapper;
 import com.blog.service.RoleService;
 import com.blog.service.SysRoleMenuService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.PageVo;
 import com.blog.vo.RoleVo;
 
@@ -70,19 +73,18 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         queryWrapper.orderByAsc(SysRole::getRoleSort);
         // 分页查询
         PageVo pageVo = null;
-        if(flag==null){
+        if (flag == null) {
             Page<SysRole> page = new Page<>(pageNum, pageSize);
-        page(page, queryWrapper);
-        List<RoleVo> roles = page.getRecords().stream().map(role -> BeanCopyUtils.copyBean(role, RoleVo.class))
-                .collect(Collectors.toList());
-        // 封装返回
-        pageVo = new PageVo(roles, page.getTotal());
-        }
-        else{
+            page(page, queryWrapper);
+            List<RoleVo> roles = page.getRecords().stream().map(role -> BeanCopyUtils.copyBean(role, RoleVo.class))
+                    .collect(Collectors.toList());
+            // 封装返回
+            pageVo = new PageVo(roles, page.getTotal());
+        } else {
             List<SysRole> roleList = list(queryWrapper);
             return ResponseResult.okResult(roleList);
         }
-        
+
         return ResponseResult.okResult(pageVo);
 
     }
@@ -99,6 +101,11 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
 
     @Override
     public ResponseResult addRole(RoleDto role) {
+        // 为空
+        if (StringUtils.hasText(role.getRoleName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(role.getRoleName());
         // 角色名已存在 抛出异常
         if (StringUtils.hasText(role.getRoleName())) {
             LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
@@ -134,6 +141,11 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
 
     @Override
     public ResponseResult updateRole(RoleDto role) {
+        // 为空
+        if (StringUtils.hasText(role.getRoleName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(role.getRoleName());
         // 更新角色信息
         SysRole sysRole = BeanCopyUtils.copyBean(role, SysRole.class);
         updateById(sysRole);

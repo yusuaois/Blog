@@ -8,11 +8,13 @@ import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.SysMenu;
 import com.blog.entity.SysRoleMenu;
+import com.blog.exception.SystemException;
 import com.blog.mapper.SysMenuMapper;
 import com.blog.service.MenuService;
 import com.blog.service.SysRoleMenuService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.MenuTreeSelectVo;
 import com.blog.vo.MenuVo;
 import com.blog.vo.RoleUpdateVo;
@@ -112,6 +114,11 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
 
     @Override
     public ResponseResult<SysMenu> addNewMenu(SysMenu menu) {
+        // 为空
+        if (StringUtils.hasText(menu.getMenuName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(menu.getMenuName());
         save(menu);
         return ResponseResult.okResult();
     }
@@ -125,6 +132,12 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
 
     @Override
     public ResponseResult updateMenuById(SysMenu menu) {
+        // 为空
+        if (StringUtils.hasText(menu.getMenuName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(menu.getMenuName());
+        
         // 若设置父菜单为当前菜单
         // 提示“修改菜单'{Menu}'失败，上级菜单不能选择自己”
         if (menu.getParentId().equals(menu.getId())) {
@@ -165,7 +178,7 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
             menuTreeSelectVo.setChildren(transToVoChild(menu.getChildren()));
             menuTreeSelectVo.setId(menu.getId());
             menuTreeSelectVo.setLabel(menu.getMenuName());
-            menuTreeSelectVo.setParentId(menu.getParentId());    
+            menuTreeSelectVo.setParentId(menu.getParentId());
             if (menu.getChildren().size() > 0) {
                 menuTreeSelectVo.setChildren(transToVoChild(menu.getChildren()));
             }
@@ -173,22 +186,22 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
         }
         return vo;
     }
-    
+
     @Override
-    public ResponseResult roleMenuTreeselect(Long id){
-        //全部菜单
+    public ResponseResult roleMenuTreeselect(Long id) {
+        // 全部菜单
         List<SysMenu> menu = list(new QueryWrapper<SysMenu>().orderByAsc("order_num"));
         List<SysMenu> menuTree = builderMenuTree(menu, 0L);
         List<MenuTreeSelectVo> menus = transToVoChild(menuTree);
 
-        //按照id查询菜单
+        // 按照id查询菜单
         LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysRoleMenu::getRoleId, id);
         List<SysRoleMenu> tmp = roleMenuService.list(wrapper);
         List<Long> checkedKeys = tmp.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
 
-        //封装为VO
-        RoleUpdateVo vo = new RoleUpdateVo(menus,checkedKeys);
+        // 封装为VO
+        RoleUpdateVo vo = new RoleUpdateVo(menus, checkedKeys);
         return ResponseResult.okResult(vo);
     }
 }

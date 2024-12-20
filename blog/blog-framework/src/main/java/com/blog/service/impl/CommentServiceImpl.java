@@ -39,7 +39,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
    @Autowired
    private UserService userService;
     
-    @Override
+    @Override//TODO 查询第二页时报500
     public ResponseResult commentList(String commentType,Long articleId, Integer pageNum, Integer pageSize) {
         // 查询对应文章的根评论
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();

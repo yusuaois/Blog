@@ -4,14 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.injector.methods.UpdateById;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.dto.TagListDto;
 import com.blog.entity.Tag;
+import com.blog.exception.SystemException;
 import com.blog.mapper.TagMapper;
 import com.blog.service.TagService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.PageVo;
 import com.blog.vo.TagInfoVo;
 
@@ -46,6 +49,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public ResponseResult addTag(Tag tag) {
+        // 为空
+        if (StringUtils.hasText(tag.getName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(tag.getName());
         Long userId = SecurityUtils.getUserId();
         tag.setCreateBy(userId);
         save(tag);
@@ -59,30 +67,35 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public ResponseResult getTagInfo(Long id){
+    public ResponseResult getTagInfo(Long id) {
         Tag tag = getById(id);
         TagInfoVo tagInfoVo = BeanCopyUtils.copyBean(tag, TagInfoVo.class);
         return ResponseResult.okResult(tagInfoVo);
     }
 
     @Override
-    public ResponseResult updateTag(Tag tag){
+    public ResponseResult updateTag(Tag tag) {
+        // 为空
+        if (StringUtils.hasText(tag.getName()))
+            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // 敏感词
+        WordDetectUtils.checkSensitiveWord(tag.getName());
         updateById(tag);
         return ResponseResult.okResult();
     }
 
     @Override
-    public ResponseResult getTagList(){
+    public ResponseResult getTagList() {
         List<Tag> tags = list();
         List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);
         return ResponseResult.okResult(tagListVos);
     }
 
     @Override
-    public ResponseResult listAllTag(){
-        //筛选状态正常标签
+    public ResponseResult listAllTag() {
+        // 筛选状态正常标签
         LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Tag::getDelFlag,SystemConstants.TAG_STATUS_NORMAL);
+        queryWrapper.eq(Tag::getDelFlag, SystemConstants.TAG_STATUS_NORMAL);
 
         List<Tag> tags = list(queryWrapper);
         List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);

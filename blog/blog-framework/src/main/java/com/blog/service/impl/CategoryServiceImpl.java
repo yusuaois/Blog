@@ -15,6 +15,7 @@ import com.blog.mapper.CategoryMapper;
 import com.blog.service.ArticleService;
 import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
+import com.blog.utils.WordDetectUtils;
 import com.blog.vo.CategoryVo;
 import com.blog.vo.PageVo;
 
@@ -70,9 +71,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public ResponseResult addCategory(CategoryDto dto) {
+        // 校验是否有文字
         if (!StringUtils.hasText(dto.getName())) {
             throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_NOT_NULL);
         }
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(dto.getName());
         // 名称已存在
         if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {
             throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_EXIST);
@@ -94,6 +98,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         if (!StringUtils.hasText(dto.getName())) {
             throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_NOT_NULL);
         }
+        // 敏感词检测
+        WordDetectUtils.checkSensitiveWord(dto.getName());
         // 名称已存在
         if (count(new LambdaQueryWrapper<Category>().eq(Category::getName, dto.getName())) > 0) {
             throw new SystemException(AppHttpCodeEnum.CATEGORY_NAME_EXIST);
