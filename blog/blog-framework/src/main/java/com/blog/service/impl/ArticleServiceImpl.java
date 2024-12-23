@@ -228,10 +228,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         WordDetectUtils.checkSensitiveWord(articleDto.getContent());
         WordDetectUtils.checkSensitiveWord(articleDto.getSummary());
 
+        //更新文章信息
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getId, article.getId());
         update(article, queryWrapper);
+
+        //更新标签信息，删除旧标签，添加新标签
+        articleTagService.removeById(article.getId());
+        List<Long> tags = articleDto.getTags();
+        ArticleTag articleTags = new ArticleTag();
+        articleTags.setArticleId(article.getId());
+
+        tags.stream().forEach(tagId -> articleTagService.save(articleTags.tagId(tagId)));
+
         return ResponseResult.okResult();
     }
 

@@ -1,7 +1,6 @@
 package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.injector.methods.UpdateById;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.AppHttpCodeEnum;
@@ -50,7 +49,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public ResponseResult addTag(Tag tag) {
         // 为空
-        if (StringUtils.hasText(tag.getName()))
+        if (!StringUtils.hasText(tag.getName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(tag.getName());
@@ -76,7 +75,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public ResponseResult updateTag(Tag tag) {
         // 为空
-        if (StringUtils.hasText(tag.getName()))
+        if (!StringUtils.hasText(tag.getName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(tag.getName());

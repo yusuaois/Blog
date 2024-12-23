@@ -36,4 +36,9 @@ public class ArticleTag implements Serializable {
      */
 
     private Long tagId;
+
+    public ArticleTag tagId(Long TagId){
+        this.tagId = TagId;
+        return this;
+    }
 }
