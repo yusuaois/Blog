@@ -8,6 +8,7 @@ import com.blog.entity.Article;
 import com.blog.entity.ArticleTag;
 import com.blog.entity.Category;
 import com.blog.mapper.ArticleMapper;
+import com.blog.mapper.ArticleTagMapper;
 import com.blog.service.ArticleService;
 import com.blog.service.ArticleTagService;
 import com.blog.service.CategoryService;
@@ -20,6 +21,7 @@ import com.blog.vo.HotArticleVo;
 import com.blog.vo.PageVo;
 import com.blog.dto.AddArticleDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -47,10 +49,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private CategoryService categoryService;
 
     @Autowired
-    private ArticleMapper articleMapper;
+    private RedisCache redisCache;
 
     @Autowired
-    private RedisCache redisCache;
+    ArticleTagMapper articleTagMapper;
 
     @Autowired
     private ArticleTagService articleTagService;
@@ -196,6 +198,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult selectArticleById(Long id) {
         Article article = getById(id);
+        if (article == null) {
+            throw new RuntimeException("文章不存在");
+        }
+        // 根据文章id查询关联的标签
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId, id);
+        List<ArticleTag> articleTags = articleTagService.list(queryWrapper);
+        article.setTags(articleTags.stream().map(ArticleTag::getTagId).collect(Collectors.toList()));
+        //返回
         return ResponseResult.okResult(article);
     }
 
