@@ -2,9 +2,11 @@ package com.blog.vo;
 
 import java.time.LocalDateTime;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
+@ApiModel(description = "文章详情-VO")
 public class ArticleDetailVo {
     private Long id;
 

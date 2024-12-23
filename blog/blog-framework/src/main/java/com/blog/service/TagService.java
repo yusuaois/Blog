@@ -3,7 +3,7 @@ package com.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.common.ResponseResult;
 import com.blog.dto.TagListDto;
-import com.blog.entity.Tag;
+import com.blog.entity.SysTag;
 import com.blog.vo.TagInfoVo;
 
 /**
@@ -14,17 +14,17 @@ import com.blog.vo.TagInfoVo;
  * @author ac
  * @since 2024-12-03
  */
-public interface TagService extends IService<Tag> {
+public interface TagService extends IService<SysTag> {
 
     ResponseResult pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
 
-    ResponseResult addTag(Tag tag);
+    ResponseResult addTag(SysTag tag);
 
     ResponseResult deleteTag(Long id);
 
     ResponseResult getTagInfo(Long id);
 
-    ResponseResult updateTag(Tag tag);
+    ResponseResult updateTag(SysTag tag);
 
     ResponseResult getTagList();
 

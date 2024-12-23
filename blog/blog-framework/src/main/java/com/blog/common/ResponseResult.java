@@ -1,12 +1,15 @@
 package com.blog.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import io.swagger.annotations.Api;
 import lombok.Data;
 import java.io.Serializable;
 
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Api(tags = "统一返回结果")
 public class ResponseResult<T> implements Serializable {
     private Integer code;
     private String msg;

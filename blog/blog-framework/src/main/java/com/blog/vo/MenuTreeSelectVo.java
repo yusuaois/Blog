@@ -1,6 +1,7 @@
 package com.blog.vo;
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@ApiModel(description = "菜单权限树-VO")
 public class MenuTreeSelectVo {
     // "children":[],
 	// 		"id":"2023",

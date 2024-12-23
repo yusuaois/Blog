@@ -11,6 +11,8 @@ import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.service.ArticleService;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * <p>
@@ -20,36 +22,40 @@ import com.blog.service.ArticleService;
  * @author ac
  * @since 2024-12-03
  */
+@Api(tags = "文章管理")
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
-    
+
     @Autowired
     private ArticleService articleService;
 
     @GetMapping("/hotArticleList")
     @SystemLog(businessName = "获取热门文章列表")
-    public ResponseResult hotArticleList(){
-        
-        ResponseResult result =  articleService.hotArticleList();
+    @Operation(summary = "获取热门文章列表")
+    public ResponseResult hotArticleList() {
+        ResponseResult result = articleService.hotArticleList();
         return result;
     }
 
     @GetMapping("/articleList")
     @SystemLog(businessName = "获取文章列表")
-    public ResponseResult articleList(Integer pageNum, Integer pageSize,Long categoryId){
-        return  articleService.articleList(pageNum, pageSize, categoryId);
+    @Operation(summary = "分页查询文章列表")
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+        return articleService.articleList(pageNum, pageSize, categoryId);
     }
 
     @GetMapping("/{id}")
     @SystemLog(businessName = "获取文章详情")
-    public ResponseResult getArticleDetail(@PathVariable("id") Long id){
+    @Operation(summary = "根据id查询文章详情")
+    public ResponseResult getArticleDetail(@PathVariable("id") Long id) {
         return articleService.getArticleDetail(id);
     }
 
     @PutMapping("/updateViewCount/{id}")
     @SystemLog(businessName = "更新文章浏览量")
-    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+    @Operation(summary = "更新文章浏览量")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id) {
         return articleService.updateViewCount(id);
     }
 

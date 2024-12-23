@@ -14,11 +14,10 @@ import com.blog.common.ResponseResult;
 import com.blog.dto.UserDto;
 import com.blog.service.UserService;
 
-import org.apache.ibatis.annotations.Delete;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 /**
  * <p>
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author ac
  * @since 2024-12-03
  */
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping("/system/user")
 public class UserController {
@@ -36,29 +36,38 @@ public class UserController {
 
     @GetMapping("/list")
     @SystemLog(businessName = "后台获取用户列表")
+    @Operation(summary = "分页查询用户列表")
     public ResponseResult userList(Integer pageNum, Integer pageSize, String userName, String phonenumber,
             String status) {
         return userService.userList(pageNum, pageSize, userName, phonenumber, status);
     }
 
     @PostMapping()
+    @SystemLog(businessName = "添加用户")
+    @Operation(summary = "添加用户")
     public ResponseResult addUser(@RequestBody UserDto user) {
         return userService.addUser(user);
     }
 
     @DeleteMapping("/{id}")
+    @SystemLog(businessName = "删除用户")
+    @Operation(summary = "删除用户")
     public ResponseResult deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
-    
+
     @GetMapping("/{id}")
+    @SystemLog(businessName = "更新用户-查询用户信息")
+    @Operation(summary = "更新用户-查询用户信息")
     public ResponseResult userDetail(@PathVariable Long id) {
         return userService.userDetail(id);
     }
 
     @PutMapping()
+    @SystemLog(businessName = "更新用户-更新用户信息")
+    @Operation(summary = "更新用户-更新用户信息")
     public ResponseResult updateUser(@RequestBody UserDto user) {
         return userService.updateUser(user);
     }
-    
+
 }

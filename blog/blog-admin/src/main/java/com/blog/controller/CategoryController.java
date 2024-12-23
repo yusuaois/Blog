@@ -14,6 +14,11 @@ import com.blog.service.CategoryService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.redis.WebUtils;
 import com.blog.vo.ExcelCategoryVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.blog.annotation.SystemLog;
@@ -36,7 +41,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author ac
  * @since 2024-12-03
  */
-
+@Api(tags = "分类模块")
 @RestController
 @RequestMapping("/content/category")
 public class CategoryController {
@@ -46,6 +51,7 @@ public class CategoryController {
 
     @PreAuthorize("@ps.hasPermission('content:category:export')")
     @GetMapping("/export")
+    @Operation(summary = "导出分类")
     @SystemLog(businessName = "导出分类")
     public void export(HttpServletResponse response) {
         try {
@@ -69,31 +75,37 @@ public class CategoryController {
 
     @GetMapping("/listAllCategory")
     @SystemLog(businessName = "获取分类列表")
+    @Operation(summary = "获取分类-所有分类列表")
     public ResponseResult listAllCategory() {
         return categoryService.getCategoryList();
     }
 
     @GetMapping("/list")
+    @SystemLog(businessName = "获取分类-分页查询分类")
     public ResponseResult listCategory(Integer pageNum, Integer pageSize, String name, String status) {
         return categoryService.listCategory(pageNum, pageSize, name, status);
     }
     
     @PostMapping()
+    @SystemLog(businessName = "添加分类")
     public ResponseResult addCategory(@RequestBody CategoryDto dto) {
         return categoryService.addCategory(dto);
     }
 
     @GetMapping("/{id}")
+    @SystemLog(businessName = "更新分类-根据id查询分类")
     public ResponseResult selectCategoryById(@PathVariable Long id) {
         return categoryService.selectCategoryById(id);
     }
 
     @PutMapping()
+    @SystemLog(businessName = "更新分类-更新分类信息")
     public ResponseResult updateCategory(@RequestBody CategoryDto dto) {
         return categoryService.updateCategory(dto);
     }
 
     @DeleteMapping("/{id}")
+    @SystemLog(businessName = "删除分类")
     public ResponseResult deleteCategory(@PathVariable Long id) {
         return categoryService.deleteCategory(id);
     }

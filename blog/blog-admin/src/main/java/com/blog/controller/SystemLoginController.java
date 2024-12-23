@@ -26,6 +26,9 @@ import com.blog.vo.PageVo;
 import com.blog.vo.RoutersVo;
 import com.blog.vo.UserInfoVo;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+
 /**
  * <p>
  * 用户表 前端控制器
@@ -34,6 +37,7 @@ import com.blog.vo.UserInfoVo;
  * @author ac
  * @since 2024-12-03
  */
+@Api(tags = "用户管理")
 @RestController
 public class SystemLoginController {
     @Autowired
@@ -47,6 +51,7 @@ public class SystemLoginController {
 
     @PostMapping("/user/login")
     @SystemLog(businessName = "后台登录")
+    @Operation(summary = "用户登录")
     public ResponseResult login(@RequestBody User User) {
         if (!StringUtils.hasText(User.getUserName())) {
             // 提示必须输入用户名
@@ -56,6 +61,7 @@ public class SystemLoginController {
     }
 
     @GetMapping("getInfo")
+    @Operation(summary = "获取用户信息")
     public ResponseResult<AdminUserInfoVo> getInfo() {
         // 获取当前登录用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -73,6 +79,7 @@ public class SystemLoginController {
     }
 
     @GetMapping("getRouters")
+    @Operation(summary = "获取前端路由")
     public ResponseResult<RoutersVo> getRouters() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         // 查询menu 结果是tree的形式（层级）
@@ -82,6 +89,7 @@ public class SystemLoginController {
     }
 
     @PostMapping("/user/logout")
+    @Operation(summary = "退出登录")
     public ResponseResult<PageVo> logout() {
         return systemLoginService.logout();
     }

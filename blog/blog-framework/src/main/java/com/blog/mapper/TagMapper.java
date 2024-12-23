@@ -3,7 +3,7 @@ package com.blog.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blog.entity.Tag;
+import com.blog.entity.SysTag;
 
 /**
  * <p>
@@ -14,6 +14,6 @@ import com.blog.entity.Tag;
  * @since 2024-12-03
  */
 @Mapper
-public interface TagMapper extends BaseMapper<Tag> {
+public interface TagMapper extends BaseMapper<SysTag> {
 
 }

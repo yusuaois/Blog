@@ -2,6 +2,9 @@ package com.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import io.swagger.annotations.ApiModel;
+
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sys_user_role")
+@ApiModel(description = "用户和角色关联表-实体类")
 public class SysUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;

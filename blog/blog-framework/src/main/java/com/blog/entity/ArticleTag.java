@@ -3,6 +3,9 @@ package com.blog.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import io.swagger.annotations.ApiModel;
+
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sg_article_tag")
+@ApiModel(description = "文章标签关联表-实体类")
 public class ArticleTag implements Serializable {
 
     private static final long serialVersionUID = 1L;

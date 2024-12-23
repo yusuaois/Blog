@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+
 import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.dto.TagListDto;
-import com.blog.entity.Tag;
+import com.blog.entity.SysTag;
 import com.blog.exception.SystemException;
 import com.blog.service.TagService;
 import com.blog.vo.PageVo;
@@ -27,6 +30,7 @@ import com.blog.vo.PageVo;
  * @author ac
  * @since 2024-12-03
  */
+@Api(tags = "文章模块")
 @RestController
 @RequestMapping("/content/tag")
 public class TagController {
@@ -35,33 +39,39 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping("/list")
+    @Operation(summary = "分页查询标签列表")
     public ResponseResult<PageVo> list(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
         return tagService.pageTagList(pageNum, pageSize, tagListDto);
     }
 
     @PostMapping
-    public ResponseResult addTag(@RequestBody Tag tag) {
+    @Operation(summary = "新增标签")
+    public ResponseResult addTag(@RequestBody SysTag tag) {
         if (!StringUtils.hasText(tag.getName()))
             throw new SystemException(AppHttpCodeEnum.TAG_NAME_NOT_NULL);
         return tagService.addTag(tag);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "删除标签")
     public ResponseResult deleteTag(@PathVariable Long id) {
         return tagService.deleteTag(id);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "更新标签-获取标签信息")
     public ResponseResult getTagInfo(@PathVariable Long id) {
         return tagService.getTagInfo(id);
     }
 
     @PutMapping
-    public ResponseResult updateTag(@RequestBody Tag tag) {
+    @Operation(summary = "更新标签-提交标签信息")
+    public ResponseResult updateTag(@RequestBody SysTag tag) {
         return tagService.updateTag(tag);
     }
 
     @GetMapping("/listAllTag")
+    @Operation(summary = "查询所有标签")
     public ResponseResult listAllTag() {
         return tagService.listAllTag();
     }

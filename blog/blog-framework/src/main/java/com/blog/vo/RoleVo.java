@@ -2,6 +2,7 @@ package com.blog.vo;
 
 import java.time.LocalDateTime;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@ApiModel(description = "角色-VO")
 public class RoleVo {
     // "id":"12",
     // "roleKey":"link",

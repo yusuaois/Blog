@@ -7,7 +7,7 @@ import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.dto.TagListDto;
-import com.blog.entity.Tag;
+import com.blog.entity.SysTag;
 import com.blog.exception.SystemException;
 import com.blog.mapper.TagMapper;
 import com.blog.service.TagService;
@@ -31,15 +31,15 @@ import org.springframework.util.StringUtils;
  * @since 2024-12-03
  */
 @Service
-public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
+public class TagServiceImpl extends ServiceImpl<TagMapper, SysTag> implements TagService {
     @Override
     public ResponseResult pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
         // 分页查询
-        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(StringUtils.hasText(tagListDto.getName()), Tag::getName, tagListDto.getName());
-        queryWrapper.like(StringUtils.hasText(tagListDto.getRemark()), Tag::getRemark, tagListDto.getRemark());
+        LambdaQueryWrapper<SysTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(tagListDto.getName()), SysTag::getName, tagListDto.getName());
+        queryWrapper.like(StringUtils.hasText(tagListDto.getRemark()), SysTag::getRemark, tagListDto.getRemark());
 
-        Page<Tag> page = new Page<>(pageNum, pageSize);
+        Page<SysTag> page = new Page<>(pageNum, pageSize);
         page(page, queryWrapper);
         // 封装数据返回
         PageVo pageVo = new PageVo(page.getRecords(), page.getTotal());
@@ -47,7 +47,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public ResponseResult addTag(Tag tag) {
+    public ResponseResult addTag(SysTag tag) {
         // 为空
         if (!StringUtils.hasText(tag.getName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
@@ -67,13 +67,13 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public ResponseResult getTagInfo(Long id) {
-        Tag tag = getById(id);
+        SysTag tag = getById(id);
         TagInfoVo tagInfoVo = BeanCopyUtils.copyBean(tag, TagInfoVo.class);
         return ResponseResult.okResult(tagInfoVo);
     }
 
     @Override
-    public ResponseResult updateTag(Tag tag) {
+    public ResponseResult updateTag(SysTag tag) {
         // 为空
         if (!StringUtils.hasText(tag.getName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
@@ -85,7 +85,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public ResponseResult getTagList() {
-        List<Tag> tags = list();
+        List<SysTag> tags = list();
         List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);
         return ResponseResult.okResult(tagListVos);
     }
@@ -93,10 +93,10 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public ResponseResult listAllTag() {
         // 筛选状态正常标签
-        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Tag::getDelFlag, SystemConstants.TAG_STATUS_NORMAL);
+        LambdaQueryWrapper<SysTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysTag::getDelFlag, SystemConstants.TAG_STATUS_NORMAL);
 
-        List<Tag> tags = list(queryWrapper);
+        List<SysTag> tags = list(queryWrapper);
         List<TagInfoVo> tagListVos = BeanCopyUtils.copyBeanList(tags, TagInfoVo.class);
         return ResponseResult.okResult(tagListVos);
     }
