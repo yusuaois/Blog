@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
     @Override
     public ResponseResult updateUserInfo(User user) {
         // 为空
-        if (StringUtils.hasText(user.getNickName()))
+        if (!StringUtils.hasText(user.getNickName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(user.getNickName());
@@ -179,7 +179,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
     @Override
     public ResponseResult updateUser(UserDto user) {
         // 为空
-        if (StringUtils.hasText(user.getNickName()))
+        if (!StringUtils.hasText(user.getNickName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(user.getNickName());

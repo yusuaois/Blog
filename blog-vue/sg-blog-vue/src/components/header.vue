@@ -1,62 +1,67 @@
 <!-- 头部公用 -->
 <template>
-<div class="">
-	<div class="headBack">
-		<el-row class="container">
-			<el-col :span="24">
-				<!-- pc端导航 -->
-				<div class="headBox">
-					<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
-						<el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
-						<el-submenu index="/Share">
-							<template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
-							<el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index" :index="'/Share?classId='+item.id">{{item.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
-						<el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i>友链</el-menu-item>
+	<div class="">
+		<div class="headBack">
+			<el-row class="container">
+				<el-col :span="24">
+					<!-- pc端导航 -->
+					<div class="headBox">
+						<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+							@select="handleSelect" :router="true">
+							<el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
+							<el-submenu index="/Share">
+								<template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
+								<el-menu-item v-for="(item, index) in classListObj" :key="'class1' + index"
+									:index="'/Share?classId=' + item.id">{{ item.name }}</el-menu-item>
+							</el-submenu>
+							<el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
+							<el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i>友链</el-menu-item>
 
-						<div class="userInfo">
-							<div v-show="!haslogin" class="nologin">
-								<a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|<a href="javascript:void(0);" @click="logoinFun(0)">&nbsp;注册</a>
+							<div class="userInfo">
+								<div v-show="!haslogin" class="nologin">
+									<a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|<a
+										href="javascript:void(0);" @click="logoinFun(0)">&nbsp;注册</a>
+								</div>
+								<div v-show="haslogin" class="haslogin">
+									<i class="fa fa-fw fa-user-circle userImg"></i>
+									<ul class="haslogin-info">
+										<li>
+											<a href="#/UserInfo">个人中心</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);" @click="userlogout">退出登录</a>
+										</li>
+									</ul>
+								</div>
 							</div>
-							<div v-show="haslogin" class="haslogin">
-								<i class="fa fa-fw fa-user-circle userImg"></i>
-								<ul class="haslogin-info">
-									<li>
-										<a href="#/UserInfo">个人中心</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" @click="userlogout">退出登录</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</el-menu>
-				</div>
-			</el-col>
-		</el-row>
-	</div>
-	<div class="headImgBox" :style="{backgroundImage:this.$store.state.themeObj.top_image?'url('+this.$store.state.themeObj.top_image+')':'url(static/img/headbg05.jpg)'}">
-		<div class="scene">
-			<div><span id="luke"></span></div>
+						</el-menu>
+					</div>
+				</el-col>
+			</el-row>
 		</div>
-		<div class="h-information">
+		<div class="headImgBox"
+			:style="{ backgroundImage: this.$store.state.themeObj.top_image ? 'url(' + this.$store.state.themeObj.top_image + ')' : 'url(static/img/headbg05.jpg)' }">
+			<div class="scene">
+				<div><span id="luke"></span></div>
+			</div>
+			<div class="h-information">
 
-                    <img :src="this.$store.state.themeObj.head_portrait?this.$store.state.themeObj.head_portrait:'static/img/tou.png'" alt="">
+				<img :src="this.$store.state.themeObj.head_portrait ? this.$store.state.themeObj.head_portrait : 'static/img/tou.png'"
+					alt="">
 
-			<h2 class="h-description">
+				<h2 class="h-description">
 
-                        {{this.$store.state.themeObj.autograph?this.$store.state.themeObj.autograph:"三更灯火五更鸡，正是男儿读书时"}}
+					{{ this.$store.state.themeObj.autograph ? this.$store.state.themeObj.autograph : "三更灯火五更鸡，正是男儿读书时" }}
 
-                </h2>
+				</h2>
+			</div>
 		</div>
 	</div>
-</div>
 </template>
 <script>
-import {logout} from '../api/user'
-import {removeToken} from '../utils/auth'
-import {getCategoryList} from '../api/category'
+import { logout } from '../api/user'
+import { removeToken } from '../utils/auth'
+import { getCategoryList } from '../api/category'
 import {
 	Typeit
 } from '../utils/plug.js'
@@ -90,18 +95,18 @@ export default {
 			// console.log(e)
 			if (this.input == '') {
 				this.$store.state.keywords = '';
-				this.$router.push({path:'/'});
+				this.$router.push({ path: '/' });
 			}
 		},
-		getCategoryList(){
-			getCategoryList().then((response)=>{
+		getCategoryList() {
+			getCategoryList().then((response) => {
 				this.classListObj = response
 			})
 		},
 		handleSelect(key, keyPath) { //pc菜单选择
 			//    console.log(key, keyPath);
 		},
-		logoinFun: function(msg) { //用户登录和注册跳转
+		logoinFun: function (msg) { //用户登录和注册跳转
 			// console.log(msg);
 			localStorage.setItem('logUrl', this.$route.fullPath);
 			// console.log(666,this.$router.currentRoute.fullPath);
@@ -116,7 +121,7 @@ export default {
 			}
 		},
 		// 用户退出登录
-		userlogout: function() {
+		userlogout: function () {
 			var that = this;
 			this.$confirm('是否确认退出?', '退出提示', {
 				confirmButtonText: '确定',
@@ -125,15 +130,15 @@ export default {
 			}).then(() => {
 				// console.log(that.$route.path);
 
-				logout().then((response)=>{
+				logout().then((response) => {
 					removeToken()
 					localStorage.removeItem('userInfo');
 					that.haslogin = false;
 					window.location.reload();
-						that.$message({
-							type: 'success',
-							message: '退出成功!'
-						});
+					that.$message({
+						type: 'success',
+						message: '退出成功!'
+					});
 					if (that.$route.path == '/UserInfo') {
 						that.$router.push({
 							path: '/'
@@ -145,7 +150,7 @@ export default {
 			});
 
 		},
-		routeChange: function() {
+		routeChange: function () {
 			var that = this;
 			that.pMenu = true
 			this.activeIndex = this.$route.path == '/' ? '/Home' : this.$route.path;
@@ -179,10 +184,10 @@ export default {
 		var that = this;
 		var hiddenProperty = 'hidden' in document ? 'hidden' :
 			'webkitHidden' in document ? 'webkitHidden' :
-			'mozHidden' in document ? 'mozHidden' :
-			null;
+				'mozHidden' in document ? 'mozHidden' :
+					null;
 		var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
-		var onVisibilityChange = function() {
+		var onVisibilityChange = function () {
 			if (!document[hiddenProperty]) { //被隐藏
 				if (that.$route.path != '/DetailShare') {
 					if (localStorage.getItem('userInfo')) {
@@ -201,7 +206,7 @@ export default {
 	},
 	mounted() { //页面元素加载完成
 		var that = this;
-		var timer = setTimeout(function() {
+		var timer = setTimeout(function () {
 			Typeit(that.$store.state.themeObj.user_start, "#luke"); //打字机效果
 			clearTimeout(timer);
 		}, 500);
@@ -232,19 +237,19 @@ export default {
 }
 
 .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
-	border-bottom: none!important;
+	border-bottom: none !important;
 }
 
 .headBox .el-menu {
 	background: transparent;
-	border-bottom: none!important;
+	border-bottom: none !important;
 }
 
 .headBox .el-menu-demo li.el-menu-item,
 .headBox .el-menu--horizontal .el-submenu .el-submenu__title {
 	height: 38px;
 	line-height: 38px;
-	border-bottom: none!important;
+	border-bottom: none !important;
 
 }
 
@@ -519,14 +524,17 @@ export default {
 		-webkit-transform: translateY(90px);
 		transform: translateY(90px);
 	}
+
 	80% {
 		-webkit-transform: translateY(5px);
 		transform: translateY(5px)
 	}
+
 	90% {
 		-webkit-transform: translateY(-5px);
 		transform: translateY(-5px)
 	}
+
 	to {
 		-webkit-transform: translateY(0);
 		transform: translateY(0)
@@ -538,14 +546,17 @@ export default {
 		-webkit-transform: translateY(90px);
 		transform: translateY(90px);
 	}
+
 	80% {
 		-webkit-transform: translateY(5px);
 		transform: translateY(5px)
 	}
+
 	90% {
 		-webkit-transform: translateY(-5px);
 		transform: translateY(-5px)
 	}
+
 	to {
 		-webkit-transform: translateY(0);
 		transform: translateY(0)
@@ -572,11 +583,13 @@ export default {
 	font-weight: 700;
 	/*font-family: 'Sigmar One';*/
 }
-.h-information h2  a{
+
+.h-information h2 a {
 	background: linear-gradient(to right, #DF2050, #48456D);
 	-webkit-background-clip: text;
 	color: transparent;
 }
+
 .headImgBox .scene {
 	width: 100%;
 	/*height:300px;*/
@@ -611,10 +624,12 @@ export default {
 }
 
 @keyframes caret {
+
 	0%,
 	100% {
 		opacity: 1;
 	}
+
 	50% {
 		opacity: 0;
 	}

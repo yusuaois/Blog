@@ -115,7 +115,7 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
     @Override
     public ResponseResult<SysMenu> addNewMenu(SysMenu menu) {
         // 为空
-        if (StringUtils.hasText(menu.getMenuName()))
+        if (!StringUtils.hasText(menu.getMenuName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(menu.getMenuName());
@@ -133,11 +133,11 @@ public class MenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impleme
     @Override
     public ResponseResult updateMenuById(SysMenu menu) {
         // 为空
-        if (StringUtils.hasText(menu.getMenuName()))
+        if (!StringUtils.hasText(menu.getMenuName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(menu.getMenuName());
-        
+
         // 若设置父菜单为当前菜单
         // 提示“修改菜单'{Menu}'失败，上级菜单不能选择自己”
         if (menu.getParentId().equals(menu.getId())) {

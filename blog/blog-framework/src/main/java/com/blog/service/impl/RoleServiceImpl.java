@@ -100,7 +100,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     @Override
     public ResponseResult addRole(RoleDto role) {
         // 为空
-        if (StringUtils.hasText(role.getRoleName()))
+        if (!StringUtils.hasText(role.getRoleName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(role.getRoleName());
@@ -140,7 +140,7 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     @Override
     public ResponseResult updateRole(RoleDto role) {
         // 为空
-        if (StringUtils.hasText(role.getRoleName()))
+        if (!StringUtils.hasText(role.getRoleName()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
         // 敏感词
         WordDetectUtils.checkSensitiveWord(role.getRoleName());
