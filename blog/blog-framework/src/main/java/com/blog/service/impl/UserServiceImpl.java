@@ -91,10 +91,10 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
             throw new SystemException(AppHttpCodeEnum.USERNAME_NOT_NULL);
         if (!StringUtils.hasText(user.getPassword()))
             throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
-        if (!StringUtils.hasText(user.getNickName()))
-            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
-        if (!StringUtils.hasText(user.getEmail()))
-            throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
+        // if (!StringUtils.hasText(user.getNickName()))
+        //     throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        // if (!StringUtils.hasText(user.getEmail()))
+        //     throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
 
         // 对用户名进行是否仅含有英文、数字判断
         if (WordDetectUtils.containsOnlyEnglishAndNumber(user.getUserName()))
@@ -104,20 +104,20 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         if (WordDetectUtils.containsOnlyEnglishAndNumberAndUnderline(user.getPassword()))
             throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
-        // 对邮箱进行格式判断
-        if (!WordDetectUtils.isEmail(user.getEmail()))
-            throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // // 对邮箱进行格式判断
+        // if (!WordDetectUtils.isEmail(user.getEmail()))
+        //     throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
-        // 敏感词
-        WordDetectUtils.checkSensitiveWord(user.getNickName());
+        // // 敏感词
+        // WordDetectUtils.checkSensitiveWord(user.getNickName());
 
         // 对数据进行重复判断
         if (UserNameExist(user.getUserName()))
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
-        if (EmailExist(user.getEmail()))
-            throw new SystemException(AppHttpCodeEnum.EMAIL_EXIST);
-        if (NicknameExist(user.getNickName()))
-            throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
+        // if (EmailExist(user.getEmail()))
+        //     throw new SystemException(AppHttpCodeEnum.EMAIL_EXIST);
+        // if (NicknameExist(user.getNickName()))
+        //     throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
 
         // 对密码进行加密处理
         String encodePassword = passwordEncoder.encode(user.getPassword());

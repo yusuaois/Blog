@@ -12,7 +12,8 @@
 							<el-submenu index="/Share">
 								<template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
 								<el-menu-item v-for="(item, index) in classListObj" :key="'class1' + index"
-									:index="'/Share?classId=' + item.id">{{ item.name }}</el-menu-item>
+									:index="'/Share?classId=' + item.id">{{
+										item.name }}</el-menu-item>
 							</el-submenu>
 							<el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
 							<el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i>友链</el-menu-item>
@@ -51,7 +52,8 @@
 
 				<h2 class="h-description">
 
-					{{ this.$store.state.themeObj.autograph ? this.$store.state.themeObj.autograph : "三更灯火五更鸡，正是男儿读书时" }}
+					{{ this.$store.state.themeObj.autograph ? this.$store.state.themeObj.autograph : "三更灯火五更鸡，正是男儿读书时"
+					}}
 
 				</h2>
 			</div>
