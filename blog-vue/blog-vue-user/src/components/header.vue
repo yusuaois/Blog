@@ -29,7 +29,8 @@
                             <div class="userInfo">
                                 <!-- TODO 登陆注册 -->
                                 <div v-show="!haslogin" class="nologin">
-                                    <a href="/">登录</a>|<a href="/">注册</a>
+                                    <a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|<a
+                                        href="javascript:void(0);" @click="logoinFun(0)">&nbsp;注册</a>
                                 </div>
                                 <div v-show="haslogin" class="haslogin">
                                     <el-icon>
@@ -37,10 +38,10 @@
                                     </el-icon>
                                     <ul class="haslogin-info">
                                         <li>
-                                            <a href="/">个人中心</a>
+                                            <a href="#/UserInfo">个人中心</a>
                                         </li>
                                         <li>
-                                            <a href="/">退出登录</a>
+                                            <a href="javascript:void(0);" @click="userlogout">退出登录</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -53,7 +54,7 @@
         <!-- TODO 大头像盒 -->
         <div class="headImgBox">
             <div class="scene">
-                <div><span id="luke">123</span></div>
+                <div><span id="luke">早上好您嘞</span></div>
             </div>
             <div class="h-information">
 
@@ -65,13 +66,12 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox, ElMessage } from 'element-plus'
 const route = useRoute()
 const router = useRouter()
-
 const userInfo = ref('') // 用户信息
 const haslogin = ref(false) // 是否已登录
 const classListObj = ref('') // 分类
@@ -89,7 +89,7 @@ function handleSelect(key, keyPath) { //pc菜单选择
 
 </script>
 
-<style scoped>
+<style>
 /*********头部导航栏********/
 
 /*头部导航栏盒子*/
@@ -106,6 +106,10 @@ function handleSelect(key, keyPath) { //pc菜单选择
     z-index: 100;
 }
 
+.el-menu--horizontal {
+    --el-menu-horizontal-height: 38px;
+}
+
 .headBox li.is-active {
     /*background: #48456C;*/
     background: rgba(73, 69, 107, 0.7);
@@ -120,9 +124,7 @@ function handleSelect(key, keyPath) { //pc菜单选择
     border-bottom: none !important;
 }
 
-/* 未作用 */
-.headBox .el-menu-demo li.el-menu-item,
-.headBox .el-menu--horizontal .el-sub-menu .el-sub-menu__title {
+.headBox .el-menu-demo li.el-menu-item .headBox .el-sub-menu .el-sub-menu__title {
     height: 38px;
     line-height: 38px;
     border-bottom: none !important;
@@ -133,9 +135,9 @@ function handleSelect(key, keyPath) { //pc菜单选择
     line-height: 38px;
 }
 
-.headBox li .el-icon {
-    vertical-align: baseline;
-}
+/* .headBox li .el-icon {
+        vertical-align: baseline;
+} */
 
 .headBox ul li.el-menu-item,
 .headBox ul li.el-menu-item.is-active,
@@ -146,7 +148,7 @@ function handleSelect(key, keyPath) { //pc菜单选择
 }
 
 
-.headBox .el-menu--horizontal .el-sub-menu>.el-menu {
+.headBox .el-menu--horizontal .el-sub-menu .el-menu {
     top: 38px;
     border: none;
     padding: 0;
