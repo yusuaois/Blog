@@ -14,18 +14,26 @@ import com.blog.service.UserService;
 import com.blog.utils.BeanCopyUtils;
 import com.blog.utils.SecurityUtils;
 import com.blog.utils.WordDetectUtils;
+import com.blog.utils.redis.RedisCache;
 import com.blog.vo.PageVo;
 import com.blog.vo.UserInfoVo;
+
+import net.minidev.json.writer.BeansMapper.Bean;
+
 import com.blog.vo.AdminDetailVo;
+import com.blog.vo.AliveUserVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -48,6 +56,8 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
     private SysUserRoleService userRoleService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private RedisCache redisCache;
 
     private boolean UserNameExist(String userName) {
         return lambdaQuery().eq(User::getUserName, userName).count() > 0;
@@ -92,9 +102,9 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         if (!StringUtils.hasText(user.getPassword()))
             throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
         // if (!StringUtils.hasText(user.getNickName()))
-        //     throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        // throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
         // if (!StringUtils.hasText(user.getEmail()))
-        //     throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
+        // throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
 
         // 对用户名进行是否仅含有英文、数字判断
         if (WordDetectUtils.containsOnlyEnglishAndNumber(user.getUserName()))
@@ -106,7 +116,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
 
         // // 对邮箱进行格式判断
         // if (!WordDetectUtils.isEmail(user.getEmail()))
-        //     throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
+        // throw new SystemException(AppHttpCodeEnum.INPUT_FORMAT_ERROR);
 
         // // 敏感词
         // WordDetectUtils.checkSensitiveWord(user.getNickName());
@@ -115,9 +125,9 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         if (UserNameExist(user.getUserName()))
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
         // if (EmailExist(user.getEmail()))
-        //     throw new SystemException(AppHttpCodeEnum.EMAIL_EXIST);
+        // throw new SystemException(AppHttpCodeEnum.EMAIL_EXIST);
         // if (NicknameExist(user.getNickName()))
-        //     throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
+        // throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
 
         // 对密码进行加密处理
         String encodePassword = passwordEncoder.encode(user.getPassword());
@@ -195,4 +205,9 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult aliveUser() {
+        Long total = (long)redisCache.keys("bloglogin:"+"*").size();
+        return ResponseResult.okResult(total);
+    }
 }

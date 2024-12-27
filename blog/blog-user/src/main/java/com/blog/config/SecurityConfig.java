@@ -48,14 +48,15 @@ public class SecurityConfig {
                 // 禁用默认登出页
                 .logout(AbstractHttpConfigurer::disable)
                 // 设置异常处理器
-                .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(authenticationEntryPoint)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
                 // 前后端分离是无状态的，不需要session了，直接禁用。
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         // 注意这里，是允许前端跨域联调的一个必要配置
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                        
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/user/userInfo").authenticated()
                         // 允许任意请求被已登录用户访问，不检查Authority
@@ -63,6 +64,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 // 加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
         // UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

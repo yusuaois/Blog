@@ -16,6 +16,8 @@ import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * <p>
@@ -53,4 +55,10 @@ public class UserController {
         return userService.register(user);
     }
 
+    @GetMapping("/aliveUser")
+    @Operation(summary = "获取在线用户")
+    public ResponseResult aliveUser() {
+        return userService.aliveUser();
+    }
+    
 }

@@ -31,4 +31,6 @@ public interface UserService extends IService<User> {
 
     ResponseResult updateUser(UserDto user);
 
+    ResponseResult aliveUser();
+
 }
