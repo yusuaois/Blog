@@ -53,41 +53,121 @@
         </div>
         <!-- TODO 大头像盒 -->
         <div class="headImgBox">
+            <!-- <div class="headImgBox"
+			:style="{ backgroundImage: this.$store.state.themeObj.top_image ? 'url(' + this.$store.state.themeObj.top_image + ')' : 'url(static/img/headbg05.jpg)' }"> -->
             <div class="scene">
-                <div><span id="luke">早上好您嘞</span></div>
+                <div><span id="luke"></span></div>
             </div>
             <div class="h-information">
 
                 <img src="../../static/img/tou.jpg" alt="">
+                <!-- TODO -->
+                <!-- <img :src="this.$store.state.themeObj.head_portrait ? this.$store.state.themeObj.head_portrait : 'static/img/tou.png'"
+					alt=""> -->
 
-                <h2 class="h-description"></h2>
+                <h2 class="h-description">
+                    <!-- TODO -->
+                    <!-- {{ this.$store.state.themeObj.autograph ? this.$store.state.themeObj.autograph : "三更灯火五更鸡，正是男儿读书时"
+					}} -->
+                </h2>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive, watch, onMounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { useStore } from '@/stores/useStore' // 导入 Pinia store
+// import { logout } from '../api/user'
+// import { removeToken } from '../utils/auth'
+// import { getCategoryList } from '../api/category'
+
+// 引用 Pinia store
+const store = useStore()
+
+// 获取路由对象
 const route = useRoute()
 const router = useRouter()
-const userInfo = ref('') // 用户信息
-const haslogin = ref(false) // 是否已登录
-const classListObj = ref('') // 分类
-const activeIndex = ref('/') // 当前选择的路由模块
-const state = ref('') // icon点击状态
-const pMenu = ref(true) // 手机端菜单打开
-const input = ref('') // input输入内容
-const headBg = ref('url(static/img/headbg05.jpg)') // 头部背景图
-const headTou = ref('') // 头像
-const projectList = ref('') // 项目列表
 
-function handleSelect(key, keyPath) { //pc菜单选择
-    //    console.log(key, keyPath);
+// 获取分类列表
+const getCategoryListData = () => {
+    getCategoryList().then((response) => {
+        store.setCategoryList(response) // 更新 Pinia store
+    })
 }
 
+// 用户登录或注册跳转
+const logoinFun = (msg) => {
+    localStorage.setItem('logUrl', route.fullPath)
+    if (msg === 0) {
+        router.push({ path: '/Login?login=0' })
+    } else {
+        router.push({ path: '/Login?login=1' })
+    }
+}
+
+// 用户退出登录
+const userlogout = () => {
+    window.$confirm('是否确认退出?', '退出提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+    }).then(() => {
+        logout().then(() => {
+            removeToken()
+            localStorage.removeItem('userInfo')
+            store.setLoginStatus(false) // 更新登录状态
+            store.setUserInfo(null) // 清空用户信息
+            window.location.reload()
+            window.$message({
+                type: 'success',
+                message: '退出成功!',
+            })
+            if (route.path === '/UserInfo') {
+                router.push({ path: '/' })
+            }
+        })
+    })
+}
+
+// 路由变化处理
+const routeChange = () => {
+    store.setActiveIndex(route.path === '/' ? '/Home' : route.path)
+
+    // 获取存储的用户信息
+    const savedUserInfo = localStorage.getItem('userInfo')
+    if (savedUserInfo) {
+        store.setLoginStatus(true)
+        store.setUserInfo(JSON.parse(savedUserInfo))
+    } else {
+        store.setLoginStatus(false)
+    }
+
+    getCategoryListData()
+
+    if ((route.name === 'Share' || route.name === 'Home') && window.$store.state.keywords) {
+        store.setInput(window.$store.state.keywords) // 设置输入框关键词
+    } else {
+        store.setInput('')
+        window.$store.state.keywords = ''
+    }
+}
+
+// 打字机效果
+onMounted(() => {
+    nextTick(() => {
+        const timer = setTimeout(() => {
+            Typeit(store.themeObj.user_start, '#luke')
+            clearTimeout(timer)
+        }, 500)
+    })
+})
+
+// 监听路由变化
+watch(() => route.path, routeChange)
 </script>
+
 
 <style>
 /*********头部导航栏********/
