@@ -106,7 +106,7 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private List<Long> Tags;
 
-    public Article(Long id, long viewCount) {
+    public Article(Long id, Long viewCount) {
         this.id = id;
         this.viewCount = viewCount;
     }
