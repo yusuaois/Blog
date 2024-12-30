@@ -56,9 +56,15 @@ public class UserController {
     }
 
     @GetMapping("/aliveUser")
-    @Operation(summary = "获取在线用户")
+    @Operation(summary = "获取在线人数")
     public ResponseResult aliveUser() {
         return userService.aliveUser();
     }
     
+
+    @GetMapping("/registerUser")
+    @Operation(summary = "获取注册人数")
+    public ResponseResult registerUser() {
+        return userService.registerUser();
+    }
 }

@@ -210,4 +210,10 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
         Long total = (long) redisCache.keys("bloglogin:" + "*").size();
         return ResponseResult.okResult(total);
     }
+
+    @Override
+    public ResponseResult registerUser() {
+        Long total = (long)list().size();
+        return ResponseResult.okResult(total);
+    }
 }

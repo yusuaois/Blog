@@ -33,4 +33,6 @@ public interface UserService extends IService<User> {
 
     ResponseResult aliveUser();
 
+    ResponseResult registerUser();
+
 }
