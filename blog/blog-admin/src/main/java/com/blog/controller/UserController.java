@@ -70,4 +70,10 @@ public class UserController {
         return userService.updateUser(user);
     }
 
+    @GetMapping("/aliveUser")
+    @Operation(summary = "获取在线用户")
+    public ResponseResult aliveUser() {
+        return userService.aliveUser();
+    }
+
 }

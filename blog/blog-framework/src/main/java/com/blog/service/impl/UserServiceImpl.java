@@ -207,7 +207,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, User> implements
 
     @Override
     public ResponseResult aliveUser() {
-        Long total = (long)redisCache.keys("bloglogin:"+"*").size();
+        Long total = (long) redisCache.keys("bloglogin:" + "*").size();
         return ResponseResult.okResult(total);
     }
 }

@@ -64,3 +64,10 @@ export function changeUserStatus(userId, status) {
     data: data
   })
 }
+
+export function aliveUser() {
+  return request({
+    url: "/system/user/aliveUser",
+    method: "get",
+  })
+}
