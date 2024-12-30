@@ -1,6 +1,15 @@
 import request from '@/utils/request'
 
 // 查询文章列表
+export function articleList(query) {
+  return request({
+      url: '/content/article/articleList',
+      method: 'get',
+      params: query
+  })
+}
+
+// 查询文章列表
 export function addArticle(data) {
   return request({
     url: '/content/article',
