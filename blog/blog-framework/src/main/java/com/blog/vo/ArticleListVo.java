@@ -37,4 +37,7 @@ public class ArticleListVo {
 
     private LocalDateTime createTime;
 
+    //点赞量
+    private Long likeCount;
+
 }

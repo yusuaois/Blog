@@ -53,10 +53,15 @@ public class ArticleController {
     }
 
     @PutMapping("/updateViewCount/{id}")
-    @SystemLog(businessName = "更新文章浏览量")
-    @Operation(summary = "更新文章浏览量")
+    @SystemLog(businessName = "增加文章浏览量")
+    @Operation(summary = "增加文章浏览量")
     public ResponseResult updateViewCount(@PathVariable("id") Long id) {
         return articleService.updateViewCount(id);
+    }
+
+    @GetMapping("/updateLikeCount/{id}")
+    public ResponseResult updateLikeCount(@PathVariable("id") Long id) {
+        return articleService.updateLikeCount(id);
     }
 
 }

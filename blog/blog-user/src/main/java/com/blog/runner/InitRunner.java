@@ -14,7 +14,7 @@ import com.blog.mapper.ArticleMapper;
 import com.blog.utils.redis.RedisCache;
 
 @Component
-public class ViewCountRunner implements CommandLineRunner {
+public class InitRunner implements CommandLineRunner {
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -27,11 +27,16 @@ public class ViewCountRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // 查询博客信息 id viewcount
         List<Article> articles = articleMapper.selectList(null);
-        Map<String,Integer> viewCountMap = articles.stream()
-                .collect(Collectors.toMap(article->article.getId().toString(), article -> {
+        Map<String, Integer> viewCountMap = articles.stream()
+                .collect(Collectors.toMap(article -> article.getId().toString(), article -> {
                     return article.getViewCount().intValue();
+                }));
+        Map<String, Integer> likeCountMap = articles.stream()
+                .collect(Collectors.toMap(article -> article.getId().toString(), article -> {
+                    return article.getLikeCount().intValue();
                 }));
         // 存储到redis当中
         redisCache.setCacheMap(SystemConstants.ARTICLE_VIEW_COUNT, viewCountMap);
+        redisCache.setCacheMap(SystemConstants.ARTICLE_LIKE_COUNT, likeCountMap);
     }
 }

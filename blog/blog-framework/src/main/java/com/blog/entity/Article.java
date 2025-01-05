@@ -103,11 +103,15 @@ public class Article implements Serializable {
      */
     private Integer delFlag;
 
+    // 点赞量
+    private Long likeCount;
+
     @TableField(exist = false)
     private List<Long> Tags;
 
-    public Article(Long id, Long viewCount) {
+    public Article(Long id, Long viewCount,Long likeCount) {
         this.id = id;
         this.viewCount = viewCount;
+        this.likeCount = likeCount;
     }
 }

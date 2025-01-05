@@ -42,4 +42,7 @@ public class ArticleDetailVo {
     private Long viewCount;
 
     private LocalDateTime createTime;
+
+    //点赞量
+    private Long likeCount;
 }

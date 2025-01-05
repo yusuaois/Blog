@@ -2,11 +2,13 @@ package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.blog.common.AppHttpCodeEnum;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
 import com.blog.entity.Article;
 import com.blog.entity.ArticleTag;
 import com.blog.entity.Category;
+import com.blog.exception.SystemException;
 import com.blog.mapper.ArticleMapper;
 import com.blog.mapper.ArticleTagMapper;
 import com.blog.service.ArticleService;
@@ -21,7 +23,6 @@ import com.blog.vo.HotArticleVo;
 import com.blog.vo.PageVo;
 import com.blog.dto.AddArticleDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,7 +32,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 /**
@@ -145,6 +145,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ResponseResult updateViewCount(Long id) {
+        if (redisCache.keys(SystemConstants.ARTICLE_LIKE_COUNT + id.toString()) == null)
+            throw new SystemException(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
         redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_VIEW_COUNT, id.toString(), 1);
         return ResponseResult.okResult();
     }
@@ -206,7 +208,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.eq(ArticleTag::getArticleId, id);
         List<ArticleTag> articleTags = articleTagService.list(queryWrapper);
         article.setTags(articleTags.stream().map(ArticleTag::getTagId).collect(Collectors.toList()));
-        //返回
+        // 返回
         return ResponseResult.okResult(article);
     }
 
@@ -228,13 +230,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         WordDetectUtils.checkSensitiveWord(articleDto.getContent());
         WordDetectUtils.checkSensitiveWord(articleDto.getSummary());
 
-        //更新文章信息
+        // 更新文章信息
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getId, article.getId());
         update(article, queryWrapper);
 
-        //更新标签信息，删除旧标签，添加新标签
+        // 更新标签信息，删除旧标签，添加新标签
         articleTagService.removeById(article.getId());
         List<Long> tags = articleDto.getTags();
         ArticleTag articleTags = new ArticleTag();
@@ -248,6 +250,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult deleteArticleById(Long id) {
         removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateLikeCount(Long id) {
+        if (redisCache.keys(SystemConstants.ARTICLE_LIKE_COUNT + id.toString()) == null)
+            throw new SystemException(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
+        redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_LIKE_COUNT, id.toString(), 1);
         return ResponseResult.okResult();
     }
 }

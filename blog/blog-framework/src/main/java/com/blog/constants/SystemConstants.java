@@ -35,4 +35,7 @@ public class SystemConstants
     public static final String ADMIN = "1";
 
     public static final String NORMAL = "0";
+
+    //文章点赞量
+    public static final String ARTICLE_LIKE_COUNT = "article:LikeCount";
 }

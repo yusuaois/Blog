@@ -26,7 +26,8 @@ public enum AppHttpCodeEnum {
     CATEGORY_NAME_EXIST(516, "分类名已存在"), 
     LINK_NAME_NOT_NULL(517, "友链名不能为空"),
     LINK_NAME_EXIST(518, "友链名已存在"), 
-    INPUT_FORMAT_ERROR(519, "输入格式错误"),
+    INPUT_FORMAT_ERROR(519, "输入格式错误"), 
+    ARTICLE_NOT_EXIST(520, "文章不存在"),
     ;
 
     int code;

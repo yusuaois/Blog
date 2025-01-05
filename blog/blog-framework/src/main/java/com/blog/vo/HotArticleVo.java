@@ -8,4 +8,5 @@ public class HotArticleVo {
     private Long id;
     private String title;
     private Long viewCount; 
+    private Long likeCount;
 }
