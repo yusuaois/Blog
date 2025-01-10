@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.annotation.SystemLog;
 import com.blog.common.ResponseResult;
 import com.blog.constants.SystemConstants;
+import com.blog.dto.AddCommentDto;
 import com.blog.entity.Comment;
 import com.blog.service.CommentService;
 
@@ -43,8 +44,8 @@ public class CommentController {
 
     @PostMapping
     @SystemLog(businessName = "新增评论")
-    @Operation(summary = "新增评论")
-    public ResponseResult addComment(@RequestBody Comment comment) {
+    @Operation(summary = "新增评论", description = "评论类型（0代表文章评论，1代表友链评论）  若为根评论则to_comment_id 为 -1")
+    public ResponseResult addComment(@RequestBody AddCommentDto comment) {
         return commentService.addComment(comment);
     }
 

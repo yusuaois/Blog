@@ -38,4 +38,7 @@ public class SystemConstants
 
     //文章点赞量
     public static final String ARTICLE_LIKE_COUNT = "article:LikeCount";
+
+    //根评论
+    public static final Long ROOT_COMMENT = -1L;
 }

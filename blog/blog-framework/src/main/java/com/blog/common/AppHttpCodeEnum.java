@@ -27,7 +27,12 @@ public enum AppHttpCodeEnum {
     LINK_NAME_NOT_NULL(517, "友链名不能为空"),
     LINK_NAME_EXIST(518, "友链名已存在"), 
     INPUT_FORMAT_ERROR(519, "输入格式错误"), 
-    ARTICLE_NOT_EXIST(520, "文章不存在"),
+    ARTICLE_NOT_EXIST(520, "文章不存在"), 
+    ROOT_COMMENT_NOT_EXIST(521, "根评论不存在"), 
+    TO_COMMENT_USER_NOT_EXIST(522, "目标评论用户不存在"), 
+    TO_COMMENT_NOT_EXIST(523, "目标评论不存在"), 
+    TO_COMMENT_USER_NOT_MATCH(524, "目标评论用户不匹配"),
+    COMMENT_ERROR(525, "评论失败"),
     ;
 
     int code;
